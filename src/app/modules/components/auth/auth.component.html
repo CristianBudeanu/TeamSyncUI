@@ -1,0 +1,34 @@
+<div class="auth-main-container">
+    <div class="auth-container">
+
+        <div class="decorations">
+            <img src="/assets/login-person.png" alt="authimage">
+        </div>
+
+        <div class="login">
+            
+            @if (!isRegistered) {
+                <app-login></app-login> 
+            }
+            @else {
+                <app-register (registerSuccessEvent)="switchAuth()"></app-register>
+            }
+            <div class="divider-with-text">
+                <mat-divider></mat-divider>
+                <span class="divider-text">or</span>
+                <mat-divider></mat-divider>
+            </div>
+            
+            @if (!isRegistered) {
+                <button mat-raised-button (click)="switchAuth()">Register</button>
+            }
+            @else {
+                <button mat-raised-button (click)="switchAuth()">Login</button>
+            }
+            
+        </div>
+
+        
+        
+    </div>
+</div>

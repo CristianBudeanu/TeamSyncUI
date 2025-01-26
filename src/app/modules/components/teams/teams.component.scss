@@ -1,0 +1,22 @@
+.container{ 
+    padding: 1rem;
+
+    .teams{
+        display: grid;
+        width: 100%;
+        grid-gap: 1rem;
+        grid-template-columns: repeat(auto-fit, 300px);
+        grid-template-rows: auto;
+        justify-content: space-evenly;
+        // margin-top: 50px;
+
+        .team{
+            max-width: 100%; 
+        }
+        
+        .custom-button{
+            background-color: transparent;
+            border: none;
+        }
+    }
+}

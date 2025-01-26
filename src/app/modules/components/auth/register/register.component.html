@@ -1,0 +1,37 @@
+<div class="register-container">
+
+    <div class="header">
+        <img src="/logo.png" alt="logo">
+        <span>TeamSync</span>
+    </div>
+
+    
+    <h6>Welcome to TeamSync!</h6>
+
+    <form [formGroup]="registerForm" class="credentials">
+        <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username">
+            <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="hide() ? 'password' : 'text'" formControlName="password" />
+            <button mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide()">
+                <mat-icon matSuffix>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email">
+            <mat-icon matSuffix>mail</mat-icon>
+        </mat-form-field>
+
+
+        <button mat-raised-button type="submit" (click)="onSubmit()" [disabled]="!registerForm.valid">Register</button>
+
+    </form>
+</div>

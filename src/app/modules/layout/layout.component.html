@@ -1,0 +1,36 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav [mode]="'over'" class="sidenav">
+    <div class="layout-container">
+
+      <div class="options">
+        <div class="header">
+          <mat-icon>person</mat-icon>
+          <span>Username</span>
+        </div>
+        <div class="content">
+          <button mat-flat-button [routerLink]="['/teams']" >
+            <mat-icon>groups</mat-icon>Teams</button>
+          <button mat-flat-button>
+            <mat-icon>event</mat-icon>Calendar</button>
+        </div>
+      </div>
+
+      <div class="footer">
+        <button mat-mini-fab color="warn" (click)="signOut()">
+          <mat-icon>logout</mat-icon>
+        </button>
+      </div>
+
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    @if (isLoggedIn$ | async) {
+    <app-navbar (toggleSidenavEvent)="sidenav.toggle()"></app-navbar>
+    }
+    <div class="sidenav-scroll-wrapper">
+      <div class="sidenav-content">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

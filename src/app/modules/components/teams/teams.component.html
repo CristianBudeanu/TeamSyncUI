@@ -1,0 +1,10 @@
+<div class="container">
+  <div class="teams">
+      <mat-card *ngFor="let team of teams" class="team" appearance="outlined" (click)="enterTeam(team.teamName)">
+        <mat-card-header style="justify-content: center;">
+          <mat-card-title>{{ team.teamName }}</mat-card-title>
+        </mat-card-header>
+        <img mat-card-image src="{{ team.photo }}" alt="Team Image" />
+      </mat-card>
+  </div>
+</div>
