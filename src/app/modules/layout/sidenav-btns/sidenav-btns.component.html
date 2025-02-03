@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="header">
+    <div class="header-logo">
+      <img src="/logo.png" alt="TeamSync Logo" />
+      <span>TeamSync</span>
+    </div>
+
+    <button
+      matTooltip="Logout"
+      [matTooltipPosition]="'above'"
+      class="empty-btn"
+      (click)="signOut()"
+    >
+      <app-custom-icon
+        [iconName]="'logout'"
+        [iconSize]="16"
+        [iconColor]="'red'"
+      ></app-custom-icon>
+    </button>
+  </div>
+
+  <div class="main">
+
+    <h6>Main</h6>
+
+    <button class="empty-btn" (click)="signOut()">
+      <div class="option-btn">
+        <app-custom-icon
+          [iconName]="'group'"
+          [iconSize]="20"
+          [iconColor]="'gray'"
+        ></app-custom-icon>
+        <span>Teams</span>
+      </div>
+    </button>
+
+    <button class="empty-btn" (click)="signOut()">
+      <div class="option-btn">
+        <app-custom-icon
+          [iconName]="'task_alt'"
+          [iconSize]="20"
+          [iconColor]="'grey'"
+        ></app-custom-icon>
+        <span>Tasks</span>
+      </div>
+    </button>
+
+
+  </div>
+  <mat-divider class="full-grey-divider"></mat-divider>
+
+  <div class="footer"></div>
+</div>

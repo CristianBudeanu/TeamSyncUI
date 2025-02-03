@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
-@use "../m3-theme";
+@use './custom-mat';
 
 @import 'ngx-toastr/toastr';
 @import "../node_modules/angular-calendar/scss/angular-calendar.scss";
@@ -9,15 +9,28 @@
 
 body {
     margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: "Noto-Sans";
+}
+.empty-btn{
+    border: none;
+    background-color: transparent;
 }
 
-.light-theme {
-    @include mat.all-component-themes(m3-theme.$light-theme);
+h6{
+    margin: 0;
 }
 
-.dark-theme {
-    @include mat.all-component-colors(m3-theme.$dark-theme);
+.flexbox-centered{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+@font-face {
+    font-family: 'Noto-Sans';
+    src: url('/fonts/NotoSans/notoSansVariable.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+  }
 
 

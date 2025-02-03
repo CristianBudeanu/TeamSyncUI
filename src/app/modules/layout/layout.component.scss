@@ -4,49 +4,87 @@
 
 .sidenav {
   width: 250px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid#DCDCDC;
+
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem;
+
+    .empty-btn{
+      color:grey;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 30px;
+        height: 30px;
+      }
+      span {
+        font-size: 1rem;
+        font-family: "Noto Sans Variable", sans-serif;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .main-container{
+    
+  }
 
   .layout-container {
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 1rem;
+    overflow: hidden;
+    background: rgb(218, 212, 235);
+    background: radial-gradient(
+      circle,
+      rgba(218, 212, 235, 1) 0%,
+      rgba(236, 231, 245, 1) 67%,
+      rgba(248, 249, 250, 1) 100%
+    );
 
     .options {
       display: flex;
       flex-direction: column;
-      width: 100%;
-      gap: 2rem;
+      gap: 1rem;
 
       .header {
         display: flex;
-        gap: 1rem;
+        padding: 1rem;
 
         span {
           font-size: 18px;
         }
       }
 
-      .content{
+      .content {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 1rem;
 
-        button{
+        button {
           font-size: 16px;
-          width: 100%;
+          width: 200px;
         }
       }
     }
 
-    .footer{
-      button{
+    .footer {
+      padding: 1rem;
+      button {
         background-color: #d2042d;
         color: white;
       }
     }
-
   }
 }
 

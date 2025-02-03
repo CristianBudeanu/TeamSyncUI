@@ -9,6 +9,8 @@ import { NavbarComponent } from '../components/navbar/navbar.component';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 import { RouterModule } from '@angular/router';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { SidenavBtnsComponent } from "./sidenav-btns/sidenav-btns.component";
 
 @Component({
   selector: 'app-layout',
@@ -16,6 +18,7 @@ import { RouterModule } from '@angular/router';
   styleUrl: './layout.component.scss',
   standalone: true,
   imports: [
+    MatTooltipModule,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
@@ -24,18 +27,21 @@ import { RouterModule } from '@angular/router';
     AsyncPipe,
     CommonModule,
     NavbarComponent,
-    RouterModule
-  ]
+    RouterModule,
+    SidenavBtnsComponent
+]
 })
 export class LayoutComponent implements OnInit {
+navigateToTeams() {
+throw new Error('Method not implemented.');
+}
 
   isDarkTheme = false;
   isLoggedIn$ !: BehaviorSubject<boolean>;
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
   constructor(
-    private renderer: Renderer2,
-    private authService: AuthService,
+    private authService: AuthService
   ) {
     this.isLoggedIn$ = this.authService.isLoggedIn$
   }
@@ -46,6 +52,6 @@ export class LayoutComponent implements OnInit {
 
   signOut() {
     this.authService.signOut();
-    this.sidenav.close();
+    // this.sidenav.close();
   }
 }

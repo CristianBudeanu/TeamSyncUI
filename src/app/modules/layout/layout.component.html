@@ -1,28 +1,30 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #sidenav [mode]="'over'" class="sidenav">
-    <div class="layout-container">
+  <mat-sidenav
+    #sidenav
+    [mode]="'side'"
+    class="sidenav square-sidenav-container"
+    [opened]="isLoggedIn$ | async"
+  >
+  <app-sidenav-btns></app-sidenav-btns>
 
-      <div class="options">
-        <div class="header">
-          <mat-icon>person</mat-icon>
-          <span>Username</span>
-        </div>
-        <div class="content">
-          <button mat-flat-button [routerLink]="['/teams']" >
-            <mat-icon>groups</mat-icon>Teams</button>
-          <button mat-flat-button>
-            <mat-icon>event</mat-icon>Calendar</button>
-        </div>
-      </div>
-
-      <div class="footer">
-        <button mat-mini-fab color="warn" (click)="signOut()">
-          <mat-icon>logout</mat-icon>
+    <!-- <div class="main-content flexbox-centered">
+      <div>
+        <button
+          matTooltip="Teams"
+          [matTooltipPosition]="'above'"
+          class="empty-btn flexbox-centered"
+          (click)="navigateToTeams()"
+        >
+          <app-custom-icon
+            [iconName]="'group'"
+            [iconSize]="24"
+            [iconColor]="'gray'"
+          ></app-custom-icon>
         </button>
       </div>
-
-    </div>
+    </div> -->
   </mat-sidenav>
+
   <mat-sidenav-content>
     @if (isLoggedIn$ | async) {
     <app-navbar (toggleSidenavEvent)="sidenav.toggle()"></app-navbar>

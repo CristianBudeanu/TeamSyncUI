@@ -1,0 +1,14 @@
+@use '@angular/material' as mat;
+
+.square-sidenav-container {
+    @include mat.sidenav-overrides((
+        container-shape: square,
+      ));
+}
+
+.full-grey-divider{
+  @include mat.divider-overrides((
+    color: grey,
+    width: 100%
+  ));
+}
