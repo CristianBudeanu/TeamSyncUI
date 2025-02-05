@@ -2,7 +2,7 @@
   <div class="header">
     <div class="header-logo">
       <img src="/logo.png" alt="TeamSync Logo" />
-      <span>TeamSync</span>
+      <h4>TeamSync</h4>
     </div>
 
     <button
@@ -22,32 +22,29 @@
   <div class="main">
 
     <h6>Main</h6>
-
-    <button class="empty-btn" (click)="signOut()">
+    <button class="empty-btn" routerLink="/teams" routerLinkActive="active">
       <div class="option-btn">
         <app-custom-icon
           [iconName]="'group'"
           [iconSize]="20"
           [iconColor]="'gray'"
         ></app-custom-icon>
-        <span>Teams</span>
+        <h5>Teams</h5>
       </div>
     </button>
 
-    <button class="empty-btn" (click)="signOut()">
+    <button class="empty-btn" routerLink="/todo" routerLinkActive="active">
       <div class="option-btn">
         <app-custom-icon
           [iconName]="'task_alt'"
           [iconSize]="20"
           [iconColor]="'grey'"
         ></app-custom-icon>
-        <span>Tasks</span>
+        <h5>Tasks</h5>
       </div>
     </button>
-
-
+    <mat-divider class="full-grey-divider"></mat-divider>
   </div>
-  <mat-divider class="full-grey-divider"></mat-divider>
 
   <div class="footer"></div>
 </div>

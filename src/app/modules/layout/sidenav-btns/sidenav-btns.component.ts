@@ -3,6 +3,7 @@ import { CustomIconComponent } from '../../shared/custom-icon/custom-icon.compon
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-sidenav-btns',
@@ -12,6 +13,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatButtonModule,
     MatTooltipModule,
     MatDividerModule,
+    RouterLink,
+    RouterLinkActive
   ],
   templateUrl: './sidenav-btns.component.html',
   styleUrl: './sidenav-btns.component.scss',

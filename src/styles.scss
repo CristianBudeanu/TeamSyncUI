@@ -1,36 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
-@use '@angular/material' as mat;
-@use './custom-mat';
+@use "@angular/material" as mat;
+@use "./custom-mat";
+@use "./custom-fonts.scss";
 
-@import 'ngx-toastr/toastr';
+@import "ngx-toastr/toastr";
 @import "../node_modules/angular-calendar/scss/angular-calendar.scss";
-@import 'font-awesome/scss/font-awesome';
+@import "font-awesome/scss/font-awesome";
 
-
+html,
 body {
-    margin: 0;
+  margin: 0;
+  *:not(mat-icon) {
     font-family: "Noto-Sans";
-}
-.empty-btn{
-    border: none;
-    background-color: transparent;
-}
-
-h6{
-    margin: 0;
-}
-
-.flexbox-centered{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-@font-face {
-    font-family: 'Noto-Sans';
-    src: url('/fonts/NotoSans/notoSansVariable.ttf') format('truetype');
-    font-weight: 500;
-    font-style: normal;
   }
+}
 
+.empty-btn {
+  border: none;
+  background-color: transparent;
+}
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
