@@ -1,0 +1,50 @@
+<form [formGroup]="projectForm" (ngSubmit)="submitForm()" class="container">
+  <h2>New Project</h2>
+  <div class="new-project-data">
+    <div class="image-section">
+      <div class="header">
+        <mat-icon>upload_file</mat-icon>
+        <p>Browse File to upload!</p>
+      </div>
+      <label for="file" class="footer">
+        <mat-icon>description</mat-icon>
+        <p>{{ fileStatusMessage ? fileStatusMessage : 'Not selected file' }}</p>
+        <mat-icon>delete</mat-icon>
+      </label>
+      <input id="file" type="file" (change)="onFileSelected($event)"/>
+    </div>
+    <div class="input-section">
+      <mat-form-field>
+        <mat-label for="projectName">Project Name</mat-label>
+        <input
+          matInput
+          id="projectName"
+          formControlName="projectName"
+          type="text"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="projectDescription">Project Description</mat-label>
+        <input
+          matInput
+          id="projectDescription"
+          formControlName="projectDescription"
+          type="text"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="projectCategory">Project Category</mat-label>
+        <input
+          matInput
+          id="projectCategory"
+          formControlName="projectCategory"
+          type="text"
+        />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <button mat-button type="submit" [disabled]="projectForm.invalid">
+    Submit
+  </button>
+</form>

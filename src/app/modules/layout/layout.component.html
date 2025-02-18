@@ -1,33 +1,16 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav
     #sidenav
-    [mode]="'side'"
+    [mode]= this.sidenavMode
     class="sidenav square-sidenav-container"
     [opened]="isLoggedIn$ | async"
   >
-  <app-sidenav-btns></app-sidenav-btns>
-
-    <!-- <div class="main-content flexbox-centered">
-      <div>
-        <button
-          matTooltip="Teams"
-          [matTooltipPosition]="'above'"
-          class="empty-btn flexbox-centered"
-          (click)="navigateToTeams()"
-        >
-          <app-custom-icon
-            [iconName]="'group'"
-            [iconSize]="24"
-            [iconColor]="'gray'"
-          ></app-custom-icon>
-        </button>
-      </div>
-    </div> -->
+    <app-sidenav-btns></app-sidenav-btns>
   </mat-sidenav>
 
   <mat-sidenav-content>
     @if (isLoggedIn$ | async) {
-    <app-navbar (toggleSidenavEvent)="sidenav.toggle()"></app-navbar>
+    <app-navbar (toggleSidenavEvent)="sidenav.toggle()" [isMobile]="isMobile"></app-navbar>
     }
     <div class="sidenav-scroll-wrapper">
       <div class="sidenav-content">
