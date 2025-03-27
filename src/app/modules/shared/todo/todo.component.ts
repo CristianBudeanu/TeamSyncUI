@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   CdkDragDrop,
   CdkDrag,
@@ -7,8 +7,12 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { todoItem } from '../../../core/models/todoItem';
 import { TodoItemComponent } from './todo-item/todo-item.component';
+import { todoItem } from '../../../core/models/todoItem';
+import { ProjectService } from '../../../core/services/project.service'; // Adjust path
+import { ActivatedRoute } from '@angular/router';
+import { TaskService } from '../../../core/services/task.service';
+import { TaskItemDto } from '../../../core/models/task';
 
 @Component({
   selector: 'app-todo',
@@ -17,42 +21,58 @@ import { TodoItemComponent } from './todo-item/todo-item.component';
   templateUrl: './todo.component.html',
   styleUrl: './todo.component.scss'
 })
-export class TodoComponent {
+export class TodoComponent implements OnInit {
 
-  todo : todoItem[] = [
-    { title: 'Get to work', subtitle: 'Priority: High', image: 'https://material.angular.io/assets/img/examples/shiba2.jpg', description: 'Complete the initial project tasks.' },
-    { title: 'Pick up groceries', subtitle: 'Priority: Medium', image: 'https://material.angular.io/assets/img/examples/shiba2.jpg', description: 'Get vegetables, fruits, and essentials.' }
-  ];
+  private taskService = inject(TaskService);
 
-  doing : todoItem[] = [
-    { title: 'Code review', subtitle: 'Priority: Medium', image: 'https://material.angular.io/assets/img/examples/shiba2.jpg', description: 'Review code for pending merge requests.' }
-  ];
+  todo: todoItem[] = [];
+  doing: todoItem[] = [];
+  done: todoItem[] = [];
 
-  done : todoItem[] = [
-    { title: 'Team meeting', subtitle: 'Priority: Low', image: 'https://material.angular.io/assets/img/examples/shiba2.jpg', description: 'Weekly sync with team.' }
-  ];
+  ngOnInit() {
+    this.taskService.getAllUserTasks().subscribe((tasks: TaskItemDto[]) => {
+      console.log(tasks);
+      
+      this.categorizeTasks(tasks);
+    });
+  }
+
+  categorizeTasks(tasks: TaskItemDto[]) {
+    this.todo = tasks.filter(t => t.status === 'Pending').map(this.mapToTodoItem);
+    this.doing = tasks.filter(t => t.status === 'InWork').map(this.mapToTodoItem);
+    this.done = tasks.filter(t => t.status === 'Done').map(this.mapToTodoItem);
+    this.done = tasks.filter(t => t.status === '').map(this.mapToTodoItem);
+  }
+
+  mapToTodoItem(task: TaskItemDto): todoItem {
+    return {
+      title: task.title,
+      subtitle: 'Project Task',
+      image: '', // Optional
+      description: task.description,
+    };
+  }
 
   drop(event: CdkDragDrop<todoItem[]>) {
-    const itemMoved = event.previousContainer.data[event.previousIndex]; // Item that was moved
-    const previousArray = event.previousContainer.id; // ID of the original container
-    const newArray = event.container.id; // ID of the new container
-    const previousIndex = event.previousIndex; // Original index of the item
-    const currentIndex = event.currentIndex; // New index of the item
+    const itemMoved = event.previousContainer.data[event.previousIndex];
+    const previousArray = event.previousContainer.id;
+    const newArray = event.container.id;
+    const previousIndex = event.previousIndex;
+    const currentIndex = event.currentIndex;
 
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      moveItemInArray(event.container.data, previousIndex, currentIndex);
     } else {
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
-        event.previousIndex,
-        event.currentIndex,
+        previousIndex,
+        currentIndex
       );
-    }
 
-    if(previousArray !== newArray){
-    console.log(itemMoved.title + " | " + previousArray + " | " + newArray + " | " + previousIndex + " | " + currentIndex);
+      console.log(itemMoved.title + ' | ' + previousArray + ' → ' + newArray);
+
+      // Optional: persist status change via backend
     }
   }
-
 }

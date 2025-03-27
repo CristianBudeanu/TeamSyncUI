@@ -2,6 +2,7 @@
 @use "@angular/material" as mat;
 @use "./custom-mat";
 @use "./custom-fonts.scss";
+@use "./custom-style.scss";
 
 @import "ngx-toastr/toastr";
 @import "../node_modules/angular-calendar/scss/angular-calendar.scss";
@@ -15,10 +16,7 @@ body {
   }
 }
 
-.empty-btn {
-  border: none;
-  background-color: transparent;
-}
+
 
 h1,
 h2,

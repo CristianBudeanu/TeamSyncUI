@@ -13,3 +13,10 @@
   ));
 }
 
+.custom-mat-list-items{
+  @include mat.list-overrides((
+    list-item-label-text-size: 16px,
+    list-item-supporting-text-size: 12px
+  ));
+}
+

@@ -1,63 +1,58 @@
 import { NgFor } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import {
   MatBottomSheet,
-  MatBottomSheetModule
+  MatBottomSheetModule,
 } from '@angular/material/bottom-sheet';
 import { CreateProjectFormComponent } from './create-project-form/create-project-form.component';
-
-export interface Project {
-  photo: string;
-  teamName: string;
-}
+import { ProjectService } from '../../../core/services/project.service';
+import { Project } from '../../../core/models/project/project';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [NgFor, MatButtonModule, MatCardModule, MatButtonModule, MatBottomSheetModule],
+  imports: [
+    NgFor,
+    MatButtonModule,
+    MatCardModule,
+    MatButtonModule,
+    MatBottomSheetModule,
+  ],
   templateUrl: './projects.component.html',
-  styleUrl: './projects.component.scss'
+  styleUrl: './projects.component.scss',
 })
-export class ProjectsComponent {
+export class ProjectsComponent implements OnInit {
   private _bottomSheet = inject(MatBottomSheet);
+  private projectService = inject(ProjectService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
-  teams: Project[] = [
-    {
-      photo: 'assets/noImage.jpg',
-      teamName: 'Team Alpha'
-    },
-    {
-      photo: 'assets/noImage.jpg',
-      teamName: 'Team Beta'
-    },
-    {
-      photo: 'assets/noImage.jpg',
-      teamName: 'Team Gamma'
-    },
-    {
-      photo: 'assets/noImage.jpg',
-      teamName: 'Team Alpha'
-    },
-    {
-      photo: 'assets/noImage.jpg',
-      teamName: 'Team Beta'
-    },
-    {
-      photo: 'assets/noImage.jpg',
-      teamName: 'Team Gamma'
+  projects: Project[] = [];
+
+  ngOnInit(): void {
+    this.projectService.getProjects().subscribe((projectsResult) => {
+      this.projects = projectsResult;
+      console.log(this.projects);
+    });
+  }
+
+  enterProject(project: Project) {
+    const projectId = project ? project.id : null;
+
+    console.log(projectId);
+    
+    if (projectId) {
+      this.router.navigate(['/project', projectId]);
+    } else {
+      console.warn('No project selected');
     }
-  ];
-
-
-  enterTeam(teamName: string){
-    console.log("Enter Team: " + teamName);
   }
 
   newProject() {
     this._bottomSheet.open(CreateProjectFormComponent);
     const bottomSheetRef = this._bottomSheet.open(CreateProjectFormComponent);
   }
-  
 }

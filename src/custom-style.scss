@@ -1,0 +1,23 @@
+.flex-column{
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row{
+  display: flex;
+  flex-direction: row;
+}
+
+.empty-btn {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.rounded-box{
+  border-radius: 5px;
+  border: 1px solid gray;
+  min-height: 200px;
+  min-width: 250px;
+}
+

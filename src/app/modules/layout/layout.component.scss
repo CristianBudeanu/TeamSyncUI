@@ -1,5 +1,15 @@
 .sidenav-container {
   height: 100vh;
+
+  mat-sidenav-content{
+    .sidenav-scroll-wrapper{
+      height: calc(100% - 64px);
+
+      .sidenav-content{
+        height: 100%;
+      }
+    }
+  }
 }
 
 .sidenav {

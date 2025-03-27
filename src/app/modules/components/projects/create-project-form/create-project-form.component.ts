@@ -11,7 +11,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { NewProjectRequest } from '../../../../core/models/project/new-project-request';
 import { ProjectService } from '../../../../core/services/project.service';
 
 @Component({
@@ -78,13 +77,13 @@ export class CreateProjectFormComponent implements OnInit {
 
     const image = this.projectForm.get('projectImage')?.value;
     console.log(image);
-    
+
     if (image) {
       formData.append('image', image, image.name);
     }
     const projectName = this.projectForm.get('projectName')?.value;
     console.log(projectName);
-    
+
     formData.append('name', projectName);
     const projectCategory = this.projectForm.get('projectCategory')?.value;
     formData.append('category', projectCategory);

@@ -35,6 +35,8 @@ export class LoginComponent {
     password: new FormControl('', [Validators.required, Validators.minLength(3)]),
   });
 
+  hide = true;
+
   logModel: LoginModel = {
     username: '',
     password: ''
@@ -48,10 +50,9 @@ export class LoginComponent {
   ) { }
 
 
-  hide = signal(true);
-  clickEvent(event: MouseEvent) {
-    this.hide.set(!this.hide());
-    event.stopPropagation();
+  togglePasswordVisibility(event: MouseEvent){
+    event.preventDefault();
+    this.hide = !this.hide;
   }
 
   onSubmit() {

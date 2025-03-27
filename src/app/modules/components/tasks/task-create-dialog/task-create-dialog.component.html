@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>Task</h2>
+<mat-dialog-content>
+    <form [formGroup]="taskForm" class="container">
+        <mat-form-field appearance="outline">
+          <mat-label>Title</mat-label>
+          <input matInput placeholder="Title" formControlName="title" />
+        </mat-form-field>
+      
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <input matInput placeholder="Description" formControlName="description" />
+        </mat-form-field>
+      
+        <mat-form-field appearance="outline">
+          <mat-label>Assign to</mat-label>
+          <mat-select formControlName="assignedTo">
+            @for (member of data.members; track member) {
+              <mat-option [value]="member.id">{{ member.username }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      
+        <mat-form-field appearance="outline">
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="startPicker" formControlName="startDate" />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+        </mat-form-field>
+      
+        <mat-form-field appearance="outline">
+          <mat-label>End Date</mat-label>
+          <input matInput [matDatepicker]="endPicker" formControlName="endDate" />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
+          <mat-datepicker #endPicker></mat-datepicker>
+        </mat-form-field>
+      </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close color="warn">Cancel</button>
+  <button mat-button mat-dialog-close cdkFocusInitial [disabled]="taskForm.invalid" (click)="onSubmit()">Save</button>
+</mat-dialog-actions>
