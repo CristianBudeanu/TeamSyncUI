@@ -7,17 +7,16 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { LoadingService } from '../../../core/services/loading.service';
 
 @Component({
-  selector: 'app-navbar',
-  standalone: true,
-  imports: [
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatProgressBarModule,
-    NgIf, AsyncPipe
-  ],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+    selector: 'app-navbar',
+    imports: [
+        MatToolbarModule,
+        MatIconModule,
+        MatButtonModule,
+        MatProgressBarModule,
+        NgIf, AsyncPipe
+    ],
+    templateUrl: './navbar.component.html',
+    styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent implements OnInit {
   @Output() toggleSidenavEvent: EventEmitter<void> = new EventEmitter();

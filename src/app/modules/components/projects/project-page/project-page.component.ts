@@ -33,23 +33,22 @@ import { ProjectGithubSettingsComponent } from '../project-github-settings/proje
 import { ProjectHomeTabComponent } from '../project-home-tab/project-home-tab.component';
 
 @Component({
-  selector: 'app-project-page',
-  standalone: true,
-  imports: [
-    NgIf,
-    CommonModule,
-    CustomIconComponent,
-    MatListModule,
-    MatProgressBarModule,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    RouterModule,
-    MatTabsModule,
-    ProjectHomeTabComponent,
-  ],
-  templateUrl: './project-page.component.html',
-  styleUrl: './project-page.component.scss',
+    selector: 'app-project-page',
+    imports: [
+        NgIf,
+        CommonModule,
+        CustomIconComponent,
+        MatListModule,
+        MatProgressBarModule,
+        MatMenuModule,
+        MatIconModule,
+        MatButtonModule,
+        RouterModule,
+        MatTabsModule,
+        ProjectHomeTabComponent,
+    ],
+    templateUrl: './project-page.component.html',
+    styleUrl: './project-page.component.scss'
 })
 export class ProjectPageComponent implements OnInit {
   readonly dialog = inject(MatDialog);

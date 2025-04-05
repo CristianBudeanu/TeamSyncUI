@@ -4,17 +4,16 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoadingService } from '../../../core/services/loading.service';
 
 @Component({
-  selector: 'app-loading-overlay',
-  standalone: true,
-  imports: [MatProgressSpinnerModule, NgIf, AsyncPipe],
-  template: `
+    selector: 'app-loading-overlay',
+    imports: [MatProgressSpinnerModule, NgIf, AsyncPipe],
+    template: `
     <div *ngIf="isLoading$ | async" class="overlay flex-column flex-center gap-1">
       <mat-spinner diameter="64" strokeWidth="4"></mat-spinner>
       <h5>Loading...</h5>
     </div>
   `,
-  styles: [
-    `
+    styles: [
+        `
       .overlay {
         position: fixed;
         top: 0;
@@ -28,7 +27,7 @@ import { LoadingService } from '../../../core/services/loading.service';
         z-index: 9999;
       }
     `,
-  ],
+    ]
 })
 export class LoadingOverlayComponent {
   private loadingService = inject(LoadingService);

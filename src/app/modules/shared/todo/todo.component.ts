@@ -15,11 +15,10 @@ import { TaskService } from '../../../core/services/task.service';
 import { TaskItemDto } from '../../../core/models/task';
 
 @Component({
-  selector: 'app-todo',
-  standalone: true,
-  imports: [CdkDropListGroup, CdkDropList, CdkDrag, TodoItemComponent],
-  templateUrl: './todo.component.html',
-  styleUrl: './todo.component.scss'
+    selector: 'app-todo',
+    imports: [CdkDropListGroup, CdkDropList, CdkDrag, TodoItemComponent],
+    templateUrl: './todo.component.html',
+    styleUrl: './todo.component.scss'
 })
 export class TodoComponent implements OnInit {
 

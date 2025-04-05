@@ -19,23 +19,22 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { LoadingService } from '../../core/services/loading.service';
 
 @Component({
-  selector: 'app-layout',
-  templateUrl: './layout.component.html',
-  styleUrl: './layout.component.scss',
-  standalone: true,
-  imports: [
-    MatTooltipModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatListModule,
-    MatIconModule,
-    AsyncPipe,
-    CommonModule,
-    NavbarComponent,
-    RouterModule,
-    SidenavBtnsComponent,
-  ],
+    selector: 'app-layout',
+    templateUrl: './layout.component.html',
+    styleUrl: './layout.component.scss',
+    imports: [
+        MatTooltipModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatListModule,
+        MatIconModule,
+        AsyncPipe,
+        CommonModule,
+        NavbarComponent,
+        RouterModule,
+        SidenavBtnsComponent,
+    ]
 })
 export class LayoutComponent implements OnInit {
   private loadingService = inject(LoadingService);

@@ -6,17 +6,16 @@ import { CommonModule } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
-  selector: 'app-auth',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    LoginComponent,
-    RegisterComponent,
-    CommonModule,
-    MatDividerModule
-  ],
-  templateUrl: './auth.component.html',
-  styleUrl: './auth.component.scss'
+    selector: 'app-auth',
+    imports: [
+        MatButtonModule,
+        LoginComponent,
+        RegisterComponent,
+        CommonModule,
+        MatDividerModule
+    ],
+    templateUrl: './auth.component.html',
+    styleUrl: './auth.component.scss'
 })
 export class AuthComponent {
 

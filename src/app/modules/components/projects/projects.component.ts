@@ -12,17 +12,16 @@ import { Project } from '../../../core/models/project/project';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-projects',
-  standalone: true,
-  imports: [
-    NgFor,
-    MatButtonModule,
-    MatCardModule,
-    MatButtonModule,
-    MatBottomSheetModule,
-  ],
-  templateUrl: './projects.component.html',
-  styleUrl: './projects.component.scss',
+    selector: 'app-projects',
+    imports: [
+        NgFor,
+        MatButtonModule,
+        MatCardModule,
+        MatButtonModule,
+        MatBottomSheetModule,
+    ],
+    templateUrl: './projects.component.html',
+    styleUrl: './projects.component.scss'
 })
 export class ProjectsComponent implements OnInit {
   private _bottomSheet = inject(MatBottomSheet);

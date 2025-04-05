@@ -24,23 +24,22 @@ import { TaskItemCreateDto } from '../../../../core/models/task';
 import { TaskService } from '../../../../core/services/task.service';
 
 @Component({
-  selector: 'app-task-create-dialog',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatDialogActions,
-    MatDialogClose,
-    MatDialogTitle,
-    MatDialogContent,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatDatepickerModule,
-  ],
-  providers: [provideNativeDateAdapter()],
-  templateUrl: './task-create-dialog.component.html',
-  styleUrl: './task-create-dialog.component.scss',
+    selector: 'app-task-create-dialog',
+    imports: [
+        MatButtonModule,
+        MatDialogActions,
+        MatDialogClose,
+        MatDialogTitle,
+        MatDialogContent,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatDatepickerModule,
+    ],
+    providers: [provideNativeDateAdapter()],
+    templateUrl: './task-create-dialog.component.html',
+    styleUrl: './task-create-dialog.component.scss'
 })
 export class TaskCreateDialogComponent {
   fb = inject(FormBuilder);

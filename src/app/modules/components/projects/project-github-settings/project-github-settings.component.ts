@@ -17,20 +17,19 @@ import {
 import { ProjectService } from '../../../../core/services/project.service';
 
 @Component({
-  selector: 'app-project-github-settings',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatDialogActions,
-    MatDialogClose,
-    MatDialogTitle,
-    MatDialogContent,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-  ],
-  templateUrl: './project-github-settings.component.html',
-  styleUrl: './project-github-settings.component.scss',
+    selector: 'app-project-github-settings',
+    imports: [
+        MatButtonModule,
+        MatDialogActions,
+        MatDialogClose,
+        MatDialogTitle,
+        MatDialogContent,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+    ],
+    templateUrl: './project-github-settings.component.html',
+    styleUrl: './project-github-settings.component.scss'
 })
 export class ProjectGithubSettingsComponent implements OnInit {
   fb = inject(FormBuilder);

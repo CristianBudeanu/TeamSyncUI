@@ -6,11 +6,10 @@ import { map, Observable, tap } from 'rxjs';
 import { AsyncPipe, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-project-home-tab',
-  standalone: true,
-  imports: [StatisticCardComponent, NgIf, AsyncPipe],
-  templateUrl: './project-home-tab.component.html',
-  styleUrl: './project-home-tab.component.scss',
+    selector: 'app-project-home-tab',
+    imports: [StatisticCardComponent, NgIf, AsyncPipe],
+    templateUrl: './project-home-tab.component.html',
+    styleUrl: './project-home-tab.component.scss'
 })
 export class ProjectHomeTabComponent implements OnInit {
   @Input() project$!: Observable<Project>;

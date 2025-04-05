@@ -32,11 +32,10 @@ const colors: any = {
 };
 
 @Component({
-  selector: 'app-calendar',
-  standalone: true,
-  imports: [CalendarModule, CommonModule, CalendarNavComponent],
-  templateUrl: './calendar.component.html',
-  styleUrl: './calendar.component.scss'
+    selector: 'app-calendar',
+    imports: [CalendarModule, CommonModule, CalendarNavComponent],
+    templateUrl: './calendar.component.html',
+    styleUrl: './calendar.component.scss'
 })
 export class CalendarComponent {
   view: CalendarView = CalendarView.Month;

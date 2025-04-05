@@ -12,23 +12,22 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/mat
 import { MatInputModule } from '@angular/material/input';
 
 @Component({
-  selector: 'app-project-settings',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatDialogActions,
-    MatDialogClose,
-    MatDialogTitle,
-    MatDialogContent,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-  ],
-  providers: [
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}
-  ],
-  templateUrl: './project-settings.component.html',
-  styleUrl: './project-settings.component.scss',
+    selector: 'app-project-settings',
+    imports: [
+        MatButtonModule,
+        MatDialogActions,
+        MatDialogClose,
+        MatDialogTitle,
+        MatDialogContent,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+    ],
+    providers: [
+        { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }
+    ],
+    templateUrl: './project-settings.component.html',
+    styleUrl: './project-settings.component.scss'
 })
 export class ProjectSettingsComponent {
   githubRepo = new FormControl('');

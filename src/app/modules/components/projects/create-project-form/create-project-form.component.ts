@@ -14,23 +14,22 @@ import { MatInputModule } from '@angular/material/input';
 import { ProjectService } from '../../../../core/services/project.service';
 
 @Component({
-  selector: 'app-create-project-form',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatInputModule,
-    FormsModule,
-    MatIconModule,
-    MatButtonModule,
-  ],
-  providers: [
-    {
-      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { appearance: 'outline' },
-    },
-  ],
-  templateUrl: './create-project-form.component.html',
-  styleUrl: './create-project-form.component.scss',
+    selector: 'app-create-project-form',
+    imports: [
+        ReactiveFormsModule,
+        MatInputModule,
+        FormsModule,
+        MatIconModule,
+        MatButtonModule,
+    ],
+    providers: [
+        {
+            provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+            useValue: { appearance: 'outline' },
+        },
+    ],
+    templateUrl: './create-project-form.component.html',
+    styleUrl: './create-project-form.component.scss'
 })
 export class CreateProjectFormComponent implements OnInit {
   private _bottomSheetRef =

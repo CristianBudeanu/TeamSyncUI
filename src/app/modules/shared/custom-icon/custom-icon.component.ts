@@ -3,11 +3,10 @@ import { Component, Input } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 
 @Component({
-  selector: 'app-custom-icon',
-  standalone: true,
-  imports: [MatIconModule, NgStyle],
-  templateUrl: './custom-icon.component.html',
-  styleUrl: './custom-icon.component.scss'
+    selector: 'app-custom-icon',
+    imports: [MatIconModule, NgStyle],
+    templateUrl: './custom-icon.component.html',
+    styleUrl: './custom-icon.component.scss'
 })
 export class CustomIconComponent {
 

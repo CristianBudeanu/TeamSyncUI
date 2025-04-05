@@ -13,19 +13,18 @@ import { RegisterModel } from '../../../../core/models/authModels/register.model
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-register',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MatIconModule,
-    MatInputModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-  ],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+    selector: 'app-register',
+    imports: [
+        CommonModule,
+        MatCardModule,
+        MatIconModule,
+        MatInputModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+    ],
+    templateUrl: './register.component.html',
+    styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
   private router = inject(Router);

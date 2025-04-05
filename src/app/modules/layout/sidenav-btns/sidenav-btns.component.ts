@@ -7,18 +7,17 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
-  selector: 'app-sidenav-btns',
-  standalone: true,
-  imports: [
-    CustomIconComponent,
-    MatButtonModule,
-    MatTooltipModule,
-    MatDividerModule,
-    RouterLink,
-    RouterLinkActive,
-  ],
-  templateUrl: './sidenav-btns.component.html',
-  styleUrl: './sidenav-btns.component.scss',
+    selector: 'app-sidenav-btns',
+    imports: [
+        CustomIconComponent,
+        MatButtonModule,
+        MatTooltipModule,
+        MatDividerModule,
+        RouterLink,
+        RouterLinkActive,
+    ],
+    templateUrl: './sidenav-btns.component.html',
+    styleUrl: './sidenav-btns.component.scss'
 })
 export class SidenavBtnsComponent {
   authService = inject(AuthService);

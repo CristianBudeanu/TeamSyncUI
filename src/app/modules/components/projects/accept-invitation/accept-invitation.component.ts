@@ -5,11 +5,10 @@ import { InvitationService } from '../../../../core/services/invitation.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-accept-invitation',
-  standalone: true,
-  imports: [],
-  templateUrl: './accept-invitation.component.html',
-  styleUrl: './accept-invitation.component.scss'
+    selector: 'app-accept-invitation',
+    imports: [],
+    templateUrl: './accept-invitation.component.html',
+    styleUrl: './accept-invitation.component.scss'
 })
 export class AcceptInvitationComponent implements OnInit{
   router = inject(Router);
