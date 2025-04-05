@@ -1,8 +1,10 @@
-import { NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { LoadingService } from '../../../core/services/loading.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,7 +12,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   imports: [
     MatToolbarModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressBarModule,
+    NgIf, AsyncPipe
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
@@ -18,6 +22,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 export class NavbarComponent implements OnInit {
   @Output() toggleSidenavEvent: EventEmitter<void> = new EventEmitter();
   @Input() isMobile = false;
+    private loadingService = inject(LoadingService);
+    isLoading$ = this.loadingService.visible;
 
   ngOnInit(): void {
 

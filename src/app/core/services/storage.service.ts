@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import { DecodedToken } from '../models/token';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StorageService {
 
-  private tokenData : any;
+  private decodedToken !: DecodedToken;
 
   constructor() {
     this.initUser();
@@ -15,13 +16,13 @@ export class StorageService {
    private initUser(){
     const token = this.getToken();
     if (token) {
-      this.tokenData = this.decodeToken(token);
+      this.decodedToken = this.decodeToken(token);
     }
    }
 
   setToken(token: string){
     localStorage.setItem('token', token);
-    this.tokenData = this.decodeToken(token);
+    this.decodedToken = this.decodeToken(token);
   }
 
   getToken(){
@@ -31,6 +32,13 @@ export class StorageService {
   private decodeToken(token: string){
     const jwtHelper = new JwtHelperService();
     return jwtHelper.decodeToken(token);
+  }
+
+  getUsername(): string | null {
+    if (!this.decodedToken) {
+      this.initUser();
+    }
+    return this.decodedToken?.Username || null;
   }
 
 }

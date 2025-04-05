@@ -1,52 +1,15 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    height: 100%;
-
-
-    .header {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        img {
-            height: 64px;
-        }
-
-        span {
-            display: none;
-            font-size: 32px;
-        }
-    }
-
-    h2,
-    h3,
-    h5,
-    h6 {
-        text-align: center;
-        font-weight: bold;
-    }
-
-    .credentials {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 1rem;
-        margin: 0 10px;
-
-        mat-form-field {
-            width: 100%;
-        }
-    }
+.container{
+    margin: 0;
 }
 
+#logo {
+  height: 64px;
+}
 
-
-@media screen and (max-width: 750px) {
-    .container {
-        .header {
-            display: flex;
-        }
-    }
+h2,
+h3,
+h5,
+h6 {
+  text-align: center;
+  font-weight: bold;
 }

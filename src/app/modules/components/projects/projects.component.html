@@ -1,26 +1,29 @@
-<div class="container">
-    <div class="team-functions">
-      <button mat-button (click)="newProject()">New Project</button>
-      <button mat-button>Join Project</button>
-    </div>
-    <div class="teams">
-      <mat-card
-        *ngFor="let project of projects"
-        class="team"
-        appearance="outlined"
-        (click)="enterProject(project)"
-      >
-        <mat-card-header style="justify-content: center">
-          <mat-card-title>
-            <h5>
-              {{ project.name }}
-            </h5>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <img [src]="project.image || 'assets/noImage.jpg'" alt="Team Image" />
-        </mat-card-content>
-      </mat-card>
-    </div>
+<div class="flex-column gap-1">
+  <div class="flex-row team-functions gap-1 p-1">
+    <button mat-button (click)="newProject()">New Project</button>
+    <button mat-button>Join Project</button>
   </div>
-  
+  <div class="teams">
+    <mat-card
+      *ngFor="let project of projects"
+      class="team"
+      appearance="outlined"
+      (click)="enterProject(project)"
+    >
+      <mat-card-header class="flex-center">
+        <mat-card-title>
+          <h5>
+            {{ project.name }}
+          </h5>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <img
+          [src]="getProjectImage(project.image)"
+          (error)="onImageError($event)"
+          alt="Team Image"
+        />
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

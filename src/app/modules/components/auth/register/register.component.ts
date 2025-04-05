@@ -1,33 +1,37 @@
-import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { AuthService } from '../../../../core/services/auth.service';
-import { StorageService } from '../../../../core/services/storage.service';
 import { Router } from '@angular/router';
-import { RegisterModel } from '../../../../core/models/authModels/register.model';
 import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { AuthService } from '../../../../core/services/auth.service';
+import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
+import { StorageService } from '../../../../core/services/storage.service';
+import { RegisterModel } from '../../../../core/models/authModels/register.model';
+import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [
-    MatInputModule,
     CommonModule,
-    MatFormFieldModule,
     MatCardModule,
+    MatIconModule,
+    MatInputModule,
     MatButtonModule,
+    MatFormFieldModule,
     ReactiveFormsModule,
-    MatIconModule
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
+  private router = inject(Router);
+  private toastr = inject(ToastrService);
+  private authService = inject(AuthService);
+  private storageService = inject(StorageService);
 
   registerForm: FormGroup = new FormGroup({
     username: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -42,14 +46,6 @@ export class RegisterComponent {
     password: '',
     email: ''
   }
-
-  constructor(
-    private authService: AuthService,
-    private toastr : ToastrService,
-    private storageService: StorageService,
-    private router: Router
-  ) { }
-
 
   hide = signal(true);
   clickEvent(event: MouseEvent) {

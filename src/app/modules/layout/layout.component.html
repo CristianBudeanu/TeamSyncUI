@@ -1,7 +1,7 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav
     #sidenav
-    [mode]= this.sidenavMode
+    [mode]="this.sidenavMode"
     class="sidenav square-sidenav-container"
     [opened]="isLoggedIn$ | async"
   >
@@ -10,11 +10,22 @@
 
   <mat-sidenav-content>
     @if (isLoggedIn$ | async) {
-    <app-navbar (toggleSidenavEvent)="sidenav.toggle()" [isMobile]="isMobile"></app-navbar>
+    <app-navbar
+      class="fixed-navbar"
+      (toggleSidenavEvent)="sidenav.toggle()"
+      [isMobile]="isMobile"
+    ></app-navbar>
     }
     <div class="sidenav-scroll-wrapper">
       <div class="sidenav-content">
-        <ng-content></ng-content>
+        <ng-container *ngIf="isLoading$ | async">
+          <div class="flex-center loading">
+            <p>Loading...</p>
+          </div>
+        </ng-container>
+        <router-outlet
+          [attr.display]="(isLoading$|async) ? 'none':'block'"
+        ></router-outlet>
       </div>
     </div>
   </mat-sidenav-content>

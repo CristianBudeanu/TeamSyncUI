@@ -1,0 +1,23 @@
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin hover-lift {
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    background: #c7ddff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px #dce9fb;
+  }
+  &:active {
+    background: #d9e7fc;
+    transform: scale(0.98);
+    box-shadow: none;
+  }
+}
+
+@mixin card-shadow {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}

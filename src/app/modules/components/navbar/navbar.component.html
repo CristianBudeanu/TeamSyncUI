@@ -1,10 +1,15 @@
 <mat-toolbar color="primary">
   @if(isMobile){
-    <div>
-      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSidenav()">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
-    </div>
+  <div>
+    <button
+      type="button"
+      aria-label="Toggle sidenav"
+      mat-icon-button
+      (click)="toggleSidenav()"
+    >
+      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    </button>
+  </div>
   }
   <!-- <div>
     <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSidenav()">
@@ -18,3 +23,7 @@
     </button>
   </div> -->
 </mat-toolbar>
+<div *ngIf="isLoading$ | async">
+  <!-- <div> -->
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>

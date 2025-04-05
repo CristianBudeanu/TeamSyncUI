@@ -20,3 +20,10 @@
   ));
 }
 
+.custom-tabs{
+  @include mat.tabs-overrides((
+    active-indicator-color: #6c9fd0,
+    divider-color: #6c9fd0,
+  ));
+}
+

@@ -1,23 +1,36 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { firstValueFrom, Observable, switchMap } from 'rxjs';
-import { Project } from '../../../../core/models/project/project';
-import { ProjectService } from '../../../../core/services/project.service';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import {
+  delay,
+  EMPTY,
+  filter,
+  finalize,
+  map,
+  Observable,
+  switchMap,
+  tap,
+} from 'rxjs';
+import { Clipboard } from '@angular/cdk/clipboard';
 import { CommonModule, NgIf } from '@angular/common';
-import { CustomIconComponent } from '../../../shared/custom-icon/custom-icon.component';
-import { MatListModule } from '@angular/material/list';
 import { MatDialog } from '@angular/material/dialog';
-import { ProjectSettingsComponent } from '../project-settings/project-settings.component';
-import { ProjectGithubSettingsComponent } from '../project-github-settings/project-github-settings.component';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { TaskCreateDialogComponent } from '../../tasks/task-create-dialog/task-create-dialog.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
-import { TaskService } from '../../../../core/services/task.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import {Clipboard} from '@angular/cdk/clipboard';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatButtonModule } from '@angular/material/button';
+import { Project } from '../../../../core/models/project/project';
+import { TaskService } from '../../../../core/services/task.service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { ProjectService } from '../../../../core/services/project.service';
+import { LoadingService } from '../../../../core/services/loading.service';
 import { InvitationService } from '../../../../core/services/invitation.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { CustomIconComponent } from '../../../shared/custom-icon/custom-icon.component';
+import { ProjectSettingsComponent } from '../project-settings/project-settings.component';
+import { TaskCreateDialogComponent } from '../../tasks/task-create-dialog/task-create-dialog.component';
+import { ProjectGithubSettingsComponent } from '../project-github-settings/project-github-settings.component';
+import { ProjectHomeTabComponent } from '../project-home-tab/project-home-tab.component';
 
 @Component({
   selector: 'app-project-page',
@@ -30,6 +43,10 @@ import {MatSnackBar} from '@angular/material/snack-bar';
     MatProgressBarModule,
     MatMenuModule,
     MatIconModule,
+    MatButtonModule,
+    RouterModule,
+    MatTabsModule,
+    ProjectHomeTabComponent,
   ],
   templateUrl: './project-page.component.html',
   styleUrl: './project-page.component.scss',
@@ -42,24 +59,26 @@ export class ProjectPageComponent implements OnInit {
   private readonly projectService = inject(ProjectService);
   private readonly invitationService = inject(InvitationService);
   private _snackBar = inject(MatSnackBar);
+  private readonly loadingService = inject(LoadingService);
 
-  projectId!: string;
   isLoggedIn = false;
-  project$!: Observable<Project>;
+  project$: Observable<Project> = EMPTY;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.project$ = this.route.paramMap.pipe(
-      switchMap((params) => {
-        this.projectId = String(params.get('id'));
-        return this.projectService.getProjectDetails(this.projectId);
-      })
+      map((params) => params.get('id') ?? ''),
+      filter((id) => !!id),
+      tap(() => {
+        this.loadingService.show();
+      }),
+      switchMap((id: string) =>
+        this.projectService.getProjectDetails(id).pipe(
+          tap((details) => console.log(details)),
+          delay(1000),
+          finalize(() => this.loadingService.hide())
+        )
+      )
     );
-
-    this.project$.subscribe((result) => {
-      console.log(result);
-
-      console.log(result.githubRepository.githubCommits);
-    });
   }
 
   openDialog(): void {
@@ -72,21 +91,17 @@ export class ProjectPageComponent implements OnInit {
     return project.userRoles.includes(role);
   }
 
-  openGithubSettings() {
-    this.project$.subscribe((project) => {
-      this.dialog.open(ProjectGithubSettingsComponent, {
-        width: '250px',
-        data: {
-          projectId: project.id,
-          githubRepository: project.githubRepository,
-        },
-      });
+  openGithubSettings(project: Project) {
+    this.dialog.open(ProjectGithubSettingsComponent, {
+      width: '250px',
+      data: {
+        projectId: project.id,
+        githubRepository: project.githubRepository,
+      },
     });
   }
 
-  async openTaskCreationDialog() {
-    const project = await firstValueFrom(this.project$);
-
+  async openTaskCreationDialog(project: Project) {
     this.dialog.open(TaskCreateDialogComponent, {
       width: '250px',
       data: project,
@@ -112,15 +127,30 @@ export class ProjectPageComponent implements OnInit {
     });
   }
 
-  generateInvitationLinkAndCopy() {
-    this.invitationService.getInvitationLink(this.projectId).subscribe({
+  generateInvitationLinkAndCopy(id: string) {
+    this.invitationService.getInvitationLink(id).subscribe({
       next: (invitationToken: string) => {
-        this.clipboard.copy(`http://localhost:4200/accept-invitation/${invitationToken}`);
-        this._snackBar.open("Invitation link copied!", "Close");
+        this.clipboard.copy(
+          `http://localhost:4200/accept-invitation/${invitationToken}`
+        );
+        this._snackBar.open('Invitation link copied!', 'Close');
       },
       error: (error: HttpErrorResponse) => {
         console.error('Failed to fetch invitation link:', error);
       },
     });
+  }
+
+  getProjectImage(imagePath: string | null): string {
+    if (!imagePath) {
+      return 'assets/noImage.jpg';
+    }
+
+    return 'https://localhost:7263/Projects/' + imagePath;
+  }
+
+  onImageError(event: Event): void {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = 'assets/noImage.jpg';
   }
 }

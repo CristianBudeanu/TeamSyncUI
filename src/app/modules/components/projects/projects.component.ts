@@ -42,13 +42,24 @@ export class ProjectsComponent implements OnInit {
   enterProject(project: Project) {
     const projectId = project ? project.id : null;
 
-    console.log(projectId);
-    
     if (projectId) {
       this.router.navigate(['/project', projectId]);
     } else {
       console.warn('No project selected');
     }
+  }
+
+  getProjectImage(imagePath: string | null): string {
+    if (!imagePath) {
+      return 'assets/noImage.jpg';
+    }
+
+    return 'https://localhost:7263/Projects/' + imagePath;
+  }
+
+  onImageError(event: Event): void {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = 'assets/noImage.jpg';
   }
 
   newProject() {

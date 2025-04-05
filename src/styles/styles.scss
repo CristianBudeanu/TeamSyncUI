@@ -1,0 +1,31 @@
+@use "@angular/material" as mat;
+/* You can add global styles to this file, and also import other style files */
+// @use "./custom-fonts.scss";
+@use "./mixins.scss";
+@use "./buttons.scss";
+@use "./utilities.scss";
+@use "./variables.scss" as var;
+@use "./overrides-material.scss";
+@use "./custom-style.scss";
+
+@import "ngx-toastr/toastr";
+@import "../../node_modules/angular-calendar/scss/angular-calendar.scss";
+@import "font-awesome/scss/font-awesome";
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Noto Sans", sans-serif;
+  background-color: var.$gray-100;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}

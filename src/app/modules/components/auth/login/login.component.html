@@ -1,12 +1,10 @@
-<div class="container">
-  <div class="header">
-    <img src="/logo.png" alt="logo" />
-    <span>TeamSync</span>
+<div class="container flex-column flex-center gap-1">
+  <div class="flex-column flex-center">
+    <img id="logo" src="/logo.png" alt="logo" />
+    <h6>Welcome to TeamSync!</h6>
   </div>
 
-  <h6>Welcome to TeamSync!</h6>
-
-  <form [formGroup]="loginForm" class="credentials" (ngSubmit)="onSubmit()">
+  <form [formGroup]="loginForm" class="flex-column" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline">
       <mat-label>Username</mat-label>
       <input matInput formControlName="username" />
@@ -39,3 +37,5 @@
     </button>
   </form>
 </div>
+
+<!-- <app-loading></app-loading> -->

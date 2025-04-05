@@ -1,0 +1,70 @@
+<!-- <div *ngIf="statistics$ | async as stats" class="flex-column pt-1">
+  <div class="flex-row gap-1 container">
+    <div class="flex-row gap-1 cards-container" style="flex: 1; flex-wrap: wrap">
+      <app-statistic-card
+        [title]="'To Do'"
+        [label]="'Tasks'"
+        [color]="'#5d82ee'"
+        [count]="stats.todo"
+      ></app-statistic-card>
+      <app-statistic-card
+        [title]="'Overdue'"
+        [label]="'Tasks'"
+        [color]="'#d3524c'"
+        [count]="stats.overdue"
+      ></app-statistic-card>
+    </div>
+    <div class="flex-row gap-1 cards-container" style="flex: 1; flex-wrap: wrap">
+      <app-statistic-card
+        [title]="'Done'"
+        [label]="'Tasks'"
+        [color]="'#6bc16b'"
+        [count]="stats.done"
+      ></app-statistic-card>
+      <app-statistic-card
+        [title]="'Commits'"
+        [label]="'Total Commits'"
+        [color]="'#e1a13c'"
+        [count]="stats.commits"
+      ></app-statistic-card>
+    </div>
+  </div>
+</div> -->
+
+<div *ngIf="statistics$ | async as stats" class="container pt-1 gap-1">
+  <div>
+    <app-statistic-card
+      [title]="'To Do'"
+      [label]="'Tasks'"
+      [color]="'#5d82ee'"
+      [count]="stats.todo"
+    ></app-statistic-card>
+  </div>
+  <div>
+    <app-statistic-card
+      [title]="'Overdue'"
+      [label]="'Tasks'"
+      [color]="'#d3524c'"
+      [count]="stats.overdue"
+    ></app-statistic-card>
+  </div>
+  <div>
+    <app-statistic-card
+      [title]="'Done'"
+      [label]="'Tasks'"
+      [color]="'#6bc16b'"
+      [count]="stats.done"
+    ></app-statistic-card>
+  </div>
+  <div>
+    <app-statistic-card
+      [title]="'Commits'"
+      [label]="'Total Commits'"
+      [color]="'#e1a13c'"
+      [count]="stats.commits"
+    ></app-statistic-card>
+  </div>
+  <div style="grid-column: 1 / -1;">
+    
+  </div>
+</div>
