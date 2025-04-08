@@ -1,72 +1,75 @@
-<div class="flex-column project-container" *ngIf="project$ | async as project">
-  <div class="flex-row flex-center project-header p-1">
-    <div class="flex-column project-details full-width">
-      <div class="flex-row" style="justify-content: space-between;">
-        <div class="flex-row project-name gap-1">
-          <img
-            style="width: 64px; height: 64px; border-radius: 50%"
-            [src]="getProjectImage(project.image)"
-            (error)="onImageError($event)"
-            alt="Team Image"
-          />
-          <div>
-            <div class="flex-row">
-              <h2>{{ project.name }}</h2>
-              <button class="empty-btn" (click)="openDialog()">
-                <app-custom-icon
-                  [iconColor]="'gray'"
-                  [iconName]="'settings'"
-                  [iconSize]="24"
-                ></app-custom-icon>
-              </button>
-            </div>
-            <sub>{{ project.description }}</sub>
-          </div>
+<div class="project-container" *ngIf="project$ | async as project">
+  <div class="flex-row project-header" style="align-items: center">
+    <div class="flex-row project-name gap-1 p-1">
+      <img
+        style="width: 64px; height: 64px; border-radius: 50%"
+        [src]="getProjectImage(project.image)"
+        (error)="onImageError($event)"
+        alt="Team Image"
+      />
+      <div>
+        <div class="flex-row">
+          <h2>{{ project.name }}</h2>
+          <button class="empty-btn" (click)="openDialog()">
+            <app-custom-icon
+              [iconColor]="'gray'"
+              [iconName]="'settings'"
+              [iconSize]="24"
+            ></app-custom-icon>
+          </button>
         </div>
-        <div>
-          <ng-container *ngIf="getCurrentTask(project.userTasks) as currentTask; else noTask">
-            <div class="flex-column p-1" style="border: 1px solid gray; border-radius: 5px; position: relative;">
-              <span>{{ currentTask.title }}</span>
-              <sub>{{ currentTask.description }}</sub>
-
-              <div class="date-badge">
-                <app-custom-icon
-                  [iconName]="'calendar_today'"
-                  [iconColor]="'gray'"
-                  [iconSize]="12"
-                ></app-custom-icon>
-                <span class="date-text">
-                  {{ currentTask.startDate | date : 'mediumDate' }} –
-                  {{ currentTask.endDate | date : 'mediumDate' }}
-                </span>
-                
-              </div>
-              <div class="status-line" [ngClass]="'InWork'"></div>
-            </div>
-            
-          </ng-container>
-
-          <ng-template #noTask>
-            <p>No task in progress</p>
-          </ng-template>
-        </div>
+        <sub>{{ project.description }}</sub>
       </div>
+    </div>
+    
+    <div>
+      <ng-container
+      *ngIf="getCurrentTask(project.userTasks) as currentTask; else noTask"
+      >
+      <sub style="font-size: 9px; color: gray;">Current Task</sub>
+        <div
+          class="flex-column current-task"
+          style="border: 1px solid gray; border-radius: 5px; position: relative"
+        >
+          <span>{{ currentTask.title }}</span>
+          <sub>{{ currentTask.description }}</sub>
+
+          <div class="date-badge">
+            <app-custom-icon
+              [iconName]="'calendar_today'"
+              [iconColor]="'gray'"
+              [iconSize]="12"
+            ></app-custom-icon>
+            <span class="date-text">
+              <!-- {{ currentTask.startDate | date : 'mediumDate' }} – -->
+              {{ currentTask.endDate | date : "mediumDate" }}
+            </span>
+          </div>
+          <div class="status-line" [ngClass]="'InWork'"></div>
+        </div>
+      </ng-container>
+
+      <ng-template #noTask>
+        <p>No task in progress</p>
+      </ng-template>
     </div>
   </div>
 
-  <div class="gap-1 full-height project-content">
-    <mat-tab-group
-      class="custom-tabs"
-      mat-stretch-tabs="false"
-      mat-align-tabs="start"
-    >
-      <mat-tab label="Home">
-        <app-project-home-tab [project]="project"></app-project-home-tab>
-      </mat-tab>
-      <mat-tab label="Tasks">
-        <app-project-tasks-tab [project]="project"></app-project-tasks-tab>
-      </mat-tab>
-      <mat-tab label="Team">Content 3</mat-tab>
-    </mat-tab-group>
-  </div>
+  <!-- <div class="project-content"> -->
+  <mat-tab-group
+    class="custom-tabs tabs-full-height"
+    mat-stretch-tabs="false"
+    mat-align-tabs="start"
+  >
+    <mat-tab label="Home">
+      <app-project-home-tab [project]="project"></app-project-home-tab>
+    </mat-tab>
+    <mat-tab label="Tasks">
+      <app-project-tasks-tab [project]="project"></app-project-tasks-tab>
+    </mat-tab>
+    <mat-tab label="Team">
+      <app-project-team-tab></app-project-team-tab>
+    </mat-tab>
+  </mat-tab-group>
+  <!-- </div> -->
 </div>

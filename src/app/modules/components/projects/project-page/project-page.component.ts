@@ -33,6 +33,7 @@ import { ProjectGithubSettingsComponent } from '../project-github-settings/proje
 import { ProjectHomeTabComponent } from '../project-home-tab/project-home-tab.component';
 import { ProjectTasksTabComponent } from "./project-tasks-tab/project-tasks-tab.component";
 import { TaskItemDto } from '../../../../core/models/task';
+import { ProjectTeamTabComponent } from "./project-team-tab/project-team-tab.component";
 
 @Component({
     selector: 'app-project-page',
@@ -48,7 +49,8 @@ import { TaskItemDto } from '../../../../core/models/task';
     RouterModule,
     MatTabsModule,
     ProjectHomeTabComponent,
-    ProjectTasksTabComponent
+    ProjectTasksTabComponent,
+    ProjectTeamTabComponent
 ],
     templateUrl: './project-page.component.html',
     styleUrl: './project-page.component.scss'

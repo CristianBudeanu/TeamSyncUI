@@ -19,6 +19,8 @@ import {
   NgApexchartsModule,
 } from 'ng-apexcharts';
 import { ColumnChartOptions } from '../../../../core/models/chart/ColumnChartOptions';
+import isoWeek from 'dayjs/plugin/isoWeek';
+dayjs.extend(isoWeek);
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -47,31 +49,30 @@ export class ProjectHomeTabComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.project) return;
-
+  
     const now = new Date();
     const tasks = this.project.userTasks ?? [];
-
+  
     const todo = tasks.filter(
       (t) => t.status === 'Pending' || t.status === 'InWork'
     ).length;
-
+  
     const done = tasks.filter(
       (t) => t.status === 'Done' || t.status === 'Closed'
     ).length;
-
+  
     const overdue = tasks.filter(
       (t) =>
         (t.status === 'Pending' || t.status === 'InWork') &&
         t.endDate &&
         new Date(t.endDate) < now
     ).length;
-
+  
     const commits = this.project.githubRepository?.githubCommits?.length ?? 0;
-
+  
     this.statistics = { todo, overdue, done, commits };
-  }
-
-  constructor() {
+  
+    // ✅ Chart now initialized when project is available
     const weeklyData = this.getWeeklyCommitsByDay(this.project);
     this.chartOptions = {
       series: [
@@ -97,7 +98,7 @@ export class ProjectHomeTabComponent implements OnChanges {
         align: "left"
       },
       dataLabels: {
-        enabled: true, // shows numbers on top of points like in the image
+        enabled: true,
         style: {
           fontSize: '14px',
           fontWeight: 'bold',
@@ -162,19 +163,16 @@ export class ProjectHomeTabComponent implements OnChanges {
     };
   }
 
-  getWeeklyCommitsByDay(project: Project): number[] {
+  getWeeklyCommitsByDay(project?: Project): number[] {
     const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-    if (!project || !project.githubRepository || !project.githubRepository.githubCommits) {
-      return weekdays.map(() => 0); // Return zeroes if data is not ready
-    }
-
-    const commits = project.githubRepository.githubCommits;
-
-    console.log(commits);
     
+    if (!project?.githubRepository?.githubCommits) {
+      return weekdays.map(() => 0);
+    }
   
-    // Initialize weekday counter
+    const startOfWeek = dayjs().startOf('isoWeek'); // Monday
+    const endOfWeek = dayjs().endOf('isoWeek');     // Sunday
+  
     const countsByDay: { [key: string]: number } = {
       Mon: 0,
       Tue: 0,
@@ -185,15 +183,20 @@ export class ProjectHomeTabComponent implements OnChanges {
       Sun: 0
     };
   
-    for (const commit of commits) {
-      const date = dayjs(commit.date);
-      const dayName = date.format('ddd'); // Returns Mon, Tue, etc.
-      if (countsByDay[dayName] !== undefined) {
-        countsByDay[dayName]++;
+    for (const commit of project.githubRepository.githubCommits) {
+      const commitDate = dayjs(commit.date);
+      
+      if (commitDate.isBefore(startOfWeek) || commitDate.isAfter(endOfWeek)) {
+        continue; // Skip commits outside this week
+      }
+  
+      const day = commitDate.format('ddd'); // e.g., "Mon"
+      if (countsByDay[day] !== undefined) {
+        countsByDay[day]++;
       }
     }
   
-    // Convert to array in proper order
     return weekdays.map(day => countsByDay[day]);
   }
+
 }

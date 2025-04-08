@@ -14,6 +14,7 @@ import { TaskCreateDialogComponent } from '../../../tasks/task-create-dialog/tas
 import { TaskService } from '../../../../../core/services/task.service';
 import { TaskItemDto } from '../../../../../core/models/task';
 import { TaskPriority } from '../../../../../core/enums/task.priority';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @Component({
   selector: 'app-project-tasks-tab',
@@ -29,6 +30,7 @@ import { TaskPriority } from '../../../../../core/enums/task.priority';
     CustomIconComponent,
     NgIf,
     DatePipe,
+    MatBadgeModule
   ],
   templateUrl: './project-tasks-tab.component.html',
   styleUrl: './project-tasks-tab.component.scss',
@@ -71,5 +73,10 @@ export class ProjectTasksTabComponent implements OnInit {
         console.error('Error updating task status:', err);
       },
     });
+  }
+
+  getTaskCountByStatus(status: string): number {
+    if (!this.project?.userTasks) return 0;
+    return this.project.userTasks.filter(task => task.status === status).length;
   }
 }

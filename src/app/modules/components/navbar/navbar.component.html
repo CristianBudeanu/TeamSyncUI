@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
   @if(isMobile){
-  <div>
+  <div class="toolbar-section left">
     <button
       type="button"
       aria-label="Toggle sidenav"
@@ -11,17 +11,28 @@
     </button>
   </div>
   }
-  <!-- <div>
-    <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSidenav()">
-      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-    </button>
-  </div>
 
-  <div>
-    <button type="button" aria-label="Toggle theme" mat-icon-button (click)="toggleTheme()">
-      <mat-icon aria-label="Theme toggle icon">brightness_6</mat-icon>
+  <div class="toolbar-section center"></div>
+
+  <div class="toolbar-section right">
+    <button type="button" aria-label="Toggle theme" mat-icon-button>
+      <mat-icon aria-label="Theme toggle icon">notifications</mat-icon>
     </button>
-  </div> -->
+    <button type="button" aria-label="Toggle user" mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon aria-label="Theme toggle icon">person</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu" class="white-container-menu">
+      <button mat-menu-item>
+        <mat-icon>badge</mat-icon>
+        <span>{{this.username}}</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>settings</mat-icon>
+        <span>Settings</span>
+      </button>
+    </mat-menu>
+  </div>
 </mat-toolbar>
 <div *ngIf="isLoading$ | async">
   <!-- <div> -->

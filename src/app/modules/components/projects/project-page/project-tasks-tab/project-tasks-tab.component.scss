@@ -1,8 +1,11 @@
 .container {
-  // height: 100%;
+  display: flex;
+  height: 100%;
   .tasks-list {
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     border-radius: 15px;
+    // overflow: hidden;
+    // height: 100%;
 
     .header {
       justify-content: space-between;

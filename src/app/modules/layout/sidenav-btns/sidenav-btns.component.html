@@ -1,28 +1,18 @@
 <div class="container">
-  <div class="header">
+  <div class="header p-1">
     <div class="header-logo">
       <img src="/logo.png" alt="TeamSync Logo" />
       <h4>TeamSync</h4>
     </div>
-
-    <button
-      matTooltip="Logout"
-      [matTooltipPosition]="'above'"
-      class="empty-btn"
-      (click)="signOut()"
-    >
-      <app-custom-icon
-        [iconName]="'logout'"
-        [iconSize]="16"
-        [iconColor]="'red'"
-      ></app-custom-icon>
-    </button>
   </div>
 
-  <div class="main">
-
+  <div class="main p-1">
     <h6>Main</h6>
-    <button class="empty-btn btn-1" routerLink="/projects" routerLinkActive="active">
+    <button
+      class="empty-btn btn-1"
+      routerLink="/projects"
+      routerLinkActive="active"
+    >
       <div class="option-btn">
         <app-custom-icon
           [iconName]="'apps'"
@@ -44,7 +34,42 @@
       </div>
     </button>
     <mat-divider class="full-grey-divider"></mat-divider>
+
+    <button class="empty-btn btn-1">
+      <div class="option-btn">
+        <app-custom-icon
+          [iconName]="'analytics'"
+          [iconSize]="20"
+          [iconColor]="'gray'"
+        ></app-custom-icon>
+        <h5>Analytics</h5>
+      </div>
+    </button>
+
+    <button class="empty-btn btn-1">
+      <div class="option-btn">
+        <app-custom-icon
+          [iconName]="'chat'"
+          [iconSize]="20"
+          [iconColor]="'gray'"
+        ></app-custom-icon>
+        <h5>Chat</h5>
+      </div>
+    </button>
   </div>
 
-  <div class="footer"></div>
+  <div class="footer p-1">
+    <button
+      class="flex-row empty-btn"
+      style="align-items: center; color: red; gap: 0.25rem;"
+      (click)="signOut()"
+    >
+      <app-custom-icon
+        [iconName]="'logout'"
+        [iconSize]="18"
+        [iconColor]="'red'" 
+      ></app-custom-icon>
+      Logout
+    </button>
+  </div>
 </div>

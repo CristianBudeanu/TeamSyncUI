@@ -1,14 +1,14 @@
 <div class="container p-1 flex-column gap-1">
-  <div class="flex-column tasks-list p-1 gap-1" style="flex: 1">
+  <div class="flex-column tasks-list p-1 gap-1">
     <div class="header flex-row">
       <h3>Tasks</h3>
 
       <div class="stats flex-row gap-1">
         <span>Total Tasks: {{ this.project.userTasks.length }}</span>
         <div class="vertical-divider"></div>
-        <span>Pending: 32</span>
+        <span>Pending: {{getTaskCountByStatus('Pending')}}</span>
         <div class="vertical-divider"></div>
-        <span>Completed: 32</span>
+        <span>Completed: {{getTaskCountByStatus('Done')}}</span>
       </div>
     </div>
 
@@ -31,13 +31,14 @@
       <!-- High Priority Panel -->
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title class="flex-row" style="gap: 0.25rem">
+          <mat-panel-title class="flex-row" style="gap: 0.25rem; padding: 1rem 0rem 1rem;">
             <app-custom-icon
               [iconName]="'priority_high'"
               [iconColor]="'red'"
-              [iconSize]="16"
+              [iconSize]="18"
             ></app-custom-icon>
-            High
+            
+            <div [matBadge]="highPriorityTasks.length" matBadgeOverlap="false">High</div>
           </mat-panel-title>
         </mat-expansion-panel-header>
     
@@ -94,13 +95,13 @@
       <!-- Medium Priority Panel -->
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title class="flex-row" style="gap: 0.25rem; align-items: center">
+          <mat-panel-title class="flex-row" style="gap: 0.25rem; align-items: center;  padding: 1rem 0rem 1rem;">
             <app-custom-icon
               [iconName]="'priority_high'"
               [iconColor]="'#6e83e6'"
-              [iconSize]="16"
+              [iconSize]="18"
             ></app-custom-icon>
-            Medium
+            <div [matBadge]="mediumPriorityTasks.length" matBadgeOverlap="false">Medium</div>
           </mat-panel-title>
         </mat-expansion-panel-header>
     
@@ -157,13 +158,13 @@
       <!-- Low Priority Panel -->
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title class="flex-row" style="gap: 0.25rem; align-items: center">
+          <mat-panel-title class="flex-row" style="gap: 0.25rem; align-items: center;  padding: 1rem 0rem 1rem;">
             <app-custom-icon
               [iconName]="'priority_high'"
               [iconColor]="'#86be75'"
-              [iconSize]="16"
+              [iconSize]="18"
             ></app-custom-icon>
-            Low
+            <div [matBadge]="lowPriorityTasks.length" matBadgeOverlap="false">Low</div>
           </mat-panel-title>
         </mat-expansion-panel-header>
     
