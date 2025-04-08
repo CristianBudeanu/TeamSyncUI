@@ -22,34 +22,39 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TaskItemCreateDto } from '../../../../core/models/task';
 import { TaskService } from '../../../../core/services/task.service';
+import { TaskPriority } from '../../../../core/enums/task.priority';
+import { NgFor } from '@angular/common';
 
 @Component({
-    selector: 'app-task-create-dialog',
-    imports: [
-        MatButtonModule,
-        MatDialogActions,
-        MatDialogClose,
-        MatDialogTitle,
-        MatDialogContent,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatDatepickerModule,
-    ],
-    providers: [provideNativeDateAdapter()],
-    templateUrl: './task-create-dialog.component.html',
-    styleUrl: './task-create-dialog.component.scss'
+  selector: 'app-task-create-dialog',
+  imports: [
+    MatButtonModule,
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogTitle,
+    MatDialogContent,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    NgFor
+  ],
+  providers: [provideNativeDateAdapter()],
+  templateUrl: './task-create-dialog.component.html',
+  styleUrl: './task-create-dialog.component.scss',
 })
 export class TaskCreateDialogComponent {
   fb = inject(FormBuilder);
   data = inject(MAT_DIALOG_DATA) as Project;
   private taskService = inject(TaskService);
   dialogRef = inject(MatDialogRef<TaskCreateDialogComponent>);
+  priorities = Object.values(TaskPriority);
 
   taskForm = this.fb.group({
     title: ['', Validators.required],
     description: ['', Validators.required],
+    priority: [TaskPriority.Low, Validators.required],
     assignedTo: ['', Validators.required],
     startDate: ['', Validators.required],
     endDate: ['', Validators.required],
@@ -66,9 +71,10 @@ export class TaskCreateDialogComponent {
     const taskDto: TaskItemCreateDto = {
       title: formValue.title || '',
       description: formValue.description || '',
+      priority: formValue.priority || TaskPriority.Low,
       assignedTo: formValue.assignedTo || '',
       startDate: formValue.startDate || '',
-      endDate: formValue.endDate || ''
+      endDate: formValue.endDate || '',
     };
 
     this.taskService.createTaskItem(this.data.id, taskDto).subscribe({
@@ -78,9 +84,7 @@ export class TaskCreateDialogComponent {
       error: (err) => {
         console.error('Failed to create task', err);
         // Optionally show an error message here
-      }
+      },
     });
   }
 }
-
-

@@ -19,6 +19,13 @@
             }
           </mat-select>
         </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Priority</mat-label>
+          <mat-select formControlName="priority">
+            <mat-option *ngFor="let p of priorities" [value]="p">{{ p }}</mat-option>
+          </mat-select>
+        </mat-form-field>
       
         <mat-form-field appearance="outline">
           <mat-label>Start Date</mat-label>

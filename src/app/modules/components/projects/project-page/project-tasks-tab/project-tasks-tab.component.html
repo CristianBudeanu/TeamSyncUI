@@ -1,0 +1,306 @@
+<div class="container p-1 flex-column gap-1">
+  <div class="flex-column tasks-list p-1 gap-1" style="flex: 1">
+    <div class="header flex-row">
+      <h3>Tasks</h3>
+
+      <div class="stats flex-row gap-1">
+        <span>Total Tasks: {{ this.project.userTasks.length }}</span>
+        <div class="vertical-divider"></div>
+        <span>Pending: 32</span>
+        <div class="vertical-divider"></div>
+        <span>Completed: 32</span>
+      </div>
+    </div>
+
+    <button class="new-task-button" (click)="openTaskCreationDialog(project)">
+      <span class="plus-icon">+</span>
+      <span class="text">New task</span>
+    </button>
+
+    <!-- <div class="filters flex-row gap-1">
+      <h4>Priority</h4>
+      <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+        <mat-button-toggle value="high">High</mat-button-toggle>
+        <mat-button-toggle value="medium">Medium</mat-button-toggle>
+        <mat-button-toggle value="low">Low</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div> -->
+    <mat-divider></mat-divider>
+
+    <mat-accordion multi>
+      <!-- High Priority Panel -->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="flex-row" style="gap: 0.25rem">
+            <app-custom-icon
+              [iconName]="'priority_high'"
+              [iconColor]="'red'"
+              [iconSize]="16"
+            ></app-custom-icon>
+            High
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+    
+        <mat-list>
+          @for (task of highPriorityTasks; track task) {
+          <mat-list-item style="border: 1px solid gray; border-radius: 5px">
+            <span matListItemTitle class="task-item-content">
+              {{ task.title }}
+            </span>
+            <span matListItemLine>
+              <div class="date-badge">
+                <app-custom-icon
+                  [iconName]="'calendar_today'"
+                  [iconColor]="'gray'"
+                  [iconSize]="12"
+                ></app-custom-icon>
+                <span class="date-text">{{ task.createdDate | date : "mediumDate" }}</span>
+              </div>
+            </span>
+    
+            <button
+              class="empty-btn"
+              style="display: flex; align-items: center; height: 100%"
+              mat-icon-button
+              matListItemMeta
+              [matMenuTriggerFor]="menu"
+            >
+              <app-custom-icon
+                [iconName]="'menu'"
+                [iconColor]="'gray'"
+                [iconSize]="24"
+              ></app-custom-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="updateTaskItemStatus(task.id, 'InWork')">
+                <mat-icon>bolt</mat-icon>
+                <span>Take in work</span>
+              </button>
+              <button mat-menu-item (click)="updateTaskItemStatus(task.id, 'Pending')">
+                <mat-icon>schedule</mat-icon>
+                <span>Put on hold</span>
+              </button>
+              <button mat-menu-item (click)="updateTaskItemStatus(task.id, 'Done')">
+                <mat-icon>done</mat-icon>
+                <span>Task done</span>
+              </button>
+            </mat-menu>
+            <div class="status-line" [ngClass]="task.status"></div>
+          </mat-list-item>
+          }
+        </mat-list>
+      </mat-expansion-panel>
+    
+      <!-- Medium Priority Panel -->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="flex-row" style="gap: 0.25rem; align-items: center">
+            <app-custom-icon
+              [iconName]="'priority_high'"
+              [iconColor]="'#6e83e6'"
+              [iconSize]="16"
+            ></app-custom-icon>
+            Medium
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+    
+        <mat-list>
+          @for (task of mediumPriorityTasks; track task) {
+          <mat-list-item style="border: 1px solid gray; border-radius: 5px">
+            <span matListItemTitle class="task-item-content">
+              {{ task.title }}
+            </span>
+            <span matListItemLine>
+              <div class="date-badge">
+                <app-custom-icon
+                  [iconName]="'calendar_today'"
+                  [iconColor]="'gray'"
+                  [iconSize]="12"
+                ></app-custom-icon>
+                <span class="date-text">{{ task.createdDate | date : "mediumDate" }}</span>
+              </div>
+            </span>
+    
+            <button
+              class="empty-btn"
+              style="display: flex; align-items: center; height: 100%"
+              mat-icon-button
+              matListItemMeta
+              [matMenuTriggerFor]="menu"
+            >
+              <app-custom-icon
+                [iconName]="'menu'"
+                [iconColor]="'gray'"
+                [iconSize]="24"
+              ></app-custom-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="updateTaskItemStatus(task.id, 'InWork')">
+                <mat-icon>bolt</mat-icon>
+                <span>Take in work</span>
+              </button>
+              <button mat-menu-item (click)="updateTaskItemStatus(task.id, 'Pending')">
+                <mat-icon>schedule</mat-icon>
+                <span>Put on hold</span>
+              </button>
+              <button mat-menu-item (click)="updateTaskItemStatus(task.id, 'Done')">
+                <mat-icon>done</mat-icon>
+                <span>Task done</span>
+              </button>
+            </mat-menu>
+            <div class="status-line" [ngClass]="task.status"></div>
+          </mat-list-item>
+          }
+        </mat-list>
+      </mat-expansion-panel>
+    
+      <!-- Low Priority Panel -->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="flex-row" style="gap: 0.25rem; align-items: center">
+            <app-custom-icon
+              [iconName]="'priority_high'"
+              [iconColor]="'#86be75'"
+              [iconSize]="16"
+            ></app-custom-icon>
+            Low
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+    
+        <mat-list>
+          @for (task of lowPriorityTasks; track task) {
+          <mat-list-item style="border: 1px solid gray; border-radius: 5px">
+            <span matListItemTitle class="task-item-content">
+              {{ task.title }}
+            </span>
+            <span matListItemLine>
+              <div class="date-badge">
+                <app-custom-icon
+                  [iconName]="'calendar_today'"
+                  [iconColor]="'gray'"
+                  [iconSize]="12"
+                ></app-custom-icon>
+                <span class="date-text">{{ task.createdDate | date : "mediumDate" }}</span>
+              </div>
+            </span>
+    
+            <button
+              class="empty-btn"
+              style="display: flex; align-items: center; height: 100%"
+              mat-icon-button
+              matListItemMeta
+              [matMenuTriggerFor]="menu"
+            >
+              <app-custom-icon
+                [iconName]="'menu'"
+                [iconColor]="'gray'"
+                [iconSize]="24"
+              ></app-custom-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="updateTaskItemStatus(task.id, 'InWork')">
+                <mat-icon>bolt</mat-icon>
+                <span>Take in work</span>
+              </button>
+              <button mat-menu-item (click)="updateTaskItemStatus(task.id, 'Pending')">
+                <mat-icon>schedule</mat-icon>
+                <span>Put on hold</span>
+              </button>
+              <button mat-menu-item (click)="updateTaskItemStatus(task.id, 'Done')">
+                <mat-icon>done</mat-icon>
+                <span>Task done</span>
+              </button>
+            </mat-menu>
+            <div class="status-line" [ngClass]="task.status"></div>
+          </mat-list-item>
+          }
+        </mat-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <!-- <mat-list
+      role="list"
+      style="display: flex; flex-direction: column; gap: 0.5rem; flex: 1"
+    >
+      @for (task of project.userTasks; track task) {
+      <mat-list-item
+        style="border: 1px solid gray; border-radius: 5px; position: relative"
+      >
+        <mat-icon matListItemIcon>task</mat-icon>
+
+        <div matListItemTitle>
+          {{ task.title }}
+        </div>
+        <div matListItemLine>{{ task.description }}</div>
+
+        <button
+          class="empty-btn"
+          style="display: flex; align-items: center; height: 100%"
+          mat-icon-button
+          matListItemMeta
+          [matMenuTriggerFor]="menu"
+        >
+          <app-custom-icon
+            [iconName]="'menu'"
+            [iconColor]="'gray'"
+            [iconSize]="24"
+          ></app-custom-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button
+            mat-menu-item
+            (click)="updateTaskItemStatus(task.id, 'InWork')"
+          >
+            <mat-icon>bolt</mat-icon>
+            <span>Take in work</span>
+          </button>
+          <button
+            mat-menu-item
+            (click)="updateTaskItemStatus(task.id, 'Pending')"
+          >
+            <mat-icon>schedule</mat-icon>
+            <span>Put on hold</span>
+          </button>
+          <button mat-menu-item (click)="updateTaskItemStatus(task.id, 'Done')">
+            <mat-icon>done</mat-icon>
+            <span>Task done</span>
+          </button>
+        </mat-menu>
+        <div class="status-line" [ngClass]="task.status"></div>
+      </mat-list-item>
+      }
+    </mat-list> -->
+  </div>
+
+  <div class="flex-column commits-container p-1 gap-1" style="flex: 1">
+    <div class="header flex-row">
+      <div class="flex-column header-title">
+        <span>Commits</span>
+        <sub>Last 10 Commits</sub>
+      </div>
+
+      <div class="stats">
+        <ng-container *ngIf="project.githubRepository; else noRepo">
+          <span>
+            Total Commits:
+            {{ project.githubRepository.githubCommits?.length || 0 }}
+          </span>
+        </ng-container>
+        <ng-template #noRepo>
+          <span>Not provided</span>
+        </ng-template>
+      </div>
+    </div>
+
+    <div *ngIf="project.githubRepository" class="commits-list">
+      <mat-list role="list" class="custom-mat-list-items">
+        @for (commit of project.githubRepository.githubCommits; track commit) {
+        <mat-list-item>
+          <div matListItemTitle>{{ commit.author }}</div>
+          <div matListItemLine>{{ commit.message }}</div>
+        </mat-list-item>
+        }
+      </mat-list>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,133 @@
+.container {
+  // height: 100%;
+  .tasks-list {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 15px;
+
+    .header {
+      justify-content: space-between;
+      flex-wrap: wrap;
+
+      .stats {
+        // display: flex;
+        align-items: center;
+        span {
+          font-size: 14px;
+        }
+      }
+    }
+
+    .new-task-button {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      width: 100%;
+      background-color: #f0f8ff;
+      border: 2px dotted #1e90ff;
+      color: #1e90ff;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+
+      .plus-icon {
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      &:hover {
+        background-color: #e6f2ff;
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(30, 144, 255, 0.3);
+      }
+    }
+
+    .filters {
+      align-items: center;
+    }
+  }
+
+  .commits-container {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 15px;
+    max-height: 250px;
+
+    .header {
+      justify-content: space-between;
+      flex-wrap: wrap;
+      align-items: center;
+
+      .header-title{
+        margin: 0;
+
+        sub{
+          font-size: 10px;
+        }
+      }
+
+      .stats {
+        align-items: center;
+        span {
+          font-size: 14px;
+        }
+      }
+    }
+
+    .commits-list {
+      overflow: auto;
+    }
+  }
+}
+
+.status-line {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5px;
+  height: 100%;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+
+  &.Pending {
+    background-color: #fdd835; // yellow
+  }
+
+  &.InWork {
+    background-color: #43a047; // green
+  }
+
+  &.Done {
+    background-color: #fb8c00; // orange
+  }
+
+  &.Closed {
+    background-color: #e53935; // red
+  }
+}
+
+.scrollable-mat-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+
+.date-badge {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0px 2px 0px;
+  border-radius: 20px;
+  background-color: #eeeeee;
+  font-weight: bold;
+  font-size: 7px;
+  color: #000000;
+}
+
+.date-icon {
+  font-size: 10px;
+}

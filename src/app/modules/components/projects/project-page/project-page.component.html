@@ -1,226 +1,72 @@
 <div class="flex-column project-container" *ngIf="project$ | async as project">
   <div class="flex-row flex-center project-header p-1">
-    <div class="flex-column project-details">
-      <div class="flex-row project-name gap-1">
-        <img
-          style="width: 64px; height: 64px; border-radius: 50%"
-          [src]="getProjectImage(project.image)"
-          (error)="onImageError($event)"
-          alt="Team Image"
-        />
-        <div>
-          <div class="flex-row">
-            <h2>{{ project.name }}</h2>
-            <button class="empty-btn" (click)="openDialog()">
-              <app-custom-icon
-                [iconColor]="'gray'"
-                [iconName]="'settings'"
-                [iconSize]="24"
-              ></app-custom-icon>
-            </button>
+    <div class="flex-column project-details full-width">
+      <div class="flex-row" style="justify-content: space-between;">
+        <div class="flex-row project-name gap-1">
+          <img
+            style="width: 64px; height: 64px; border-radius: 50%"
+            [src]="getProjectImage(project.image)"
+            (error)="onImageError($event)"
+            alt="Team Image"
+          />
+          <div>
+            <div class="flex-row">
+              <h2>{{ project.name }}</h2>
+              <button class="empty-btn" (click)="openDialog()">
+                <app-custom-icon
+                  [iconColor]="'gray'"
+                  [iconName]="'settings'"
+                  [iconSize]="24"
+                ></app-custom-icon>
+              </button>
+            </div>
+            <sub>{{ project.description }}</sub>
           </div>
-          <sub>{{ project.description }}</sub>
+        </div>
+        <div>
+          <ng-container *ngIf="getCurrentTask(project.userTasks) as currentTask; else noTask">
+            <div class="flex-column p-1" style="border: 1px solid gray; border-radius: 5px; position: relative;">
+              <span>{{ currentTask.title }}</span>
+              <sub>{{ currentTask.description }}</sub>
+
+              <div class="date-badge">
+                <app-custom-icon
+                  [iconName]="'calendar_today'"
+                  [iconColor]="'gray'"
+                  [iconSize]="12"
+                ></app-custom-icon>
+                <span class="date-text">
+                  {{ currentTask.startDate | date : 'mediumDate' }} –
+                  {{ currentTask.endDate | date : 'mediumDate' }}
+                </span>
+                
+              </div>
+              <div class="status-line" [ngClass]="'InWork'"></div>
+            </div>
+            
+          </ng-container>
+
+          <ng-template #noTask>
+            <p>No task in progress</p>
+          </ng-template>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="gap-1 p-2 full-height project-content">
+  <div class="gap-1 full-height project-content">
     <mat-tab-group
       class="custom-tabs"
       mat-stretch-tabs="false"
       mat-align-tabs="start"
     >
       <mat-tab label="Home">
-        <app-project-home-tab [project$]="this.project$"></app-project-home-tab>
+        <app-project-home-tab [project]="project"></app-project-home-tab>
       </mat-tab>
-      <mat-tab label="Tasks">Content 2</mat-tab>
+      <mat-tab label="Tasks">
+        <app-project-tasks-tab [project]="project"></app-project-tasks-tab>
+      </mat-tab>
       <mat-tab label="Team">Content 3</mat-tab>
     </mat-tab-group>
   </div>
-
-  <!-- <div class="progress-container">
-      <div class="progress-label">{{ project.completed }}%</div>
-      <mat-progress-bar
-        mode="determinate"
-        [value]="project.completed"
-      ></mat-progress-bar>
-    </div> -->
-
-  <!-- <div class="rounded-box tasks">
-      <div class="header">
-        <h4>Tasks</h4>
-        @if(checkRole(project, 'Administrator')){
-        <button class="empty-btn" (click)="openTaskCreationDialog(project)">
-          <app-custom-icon
-            [iconColor]="'green'"
-            [iconName]="'add_circle'"
-            [iconSize]="24"
-          ></app-custom-icon>
-        </button>
-        }
-      </div> -->
-
-  <!-- <div class="task-list">
-        <mat-list
-          role="list"
-          class="custom-mat-list-items"
-          style="
-            padding: 0.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-          "
-        >
-          @for (task of project.userTasks; track task) {
-          <mat-list-item
-            style="
-              border: 1px solid gray;
-              border-radius: 5px;
-              position: relative;
-            "
-          > -->
-  <!-- <mat-icon matListItemIcon>folder</mat-icon> -->
-
-  <!-- <div matListItemTitle>
-              {{ task.title }} ({{ getDaysLeft(task.endDate) }} Days)
-            </div>
-            <div matListItemLine>{{ task.description }}</div>
-
-            <button
-              class="empty-btn"
-              style="display: flex; align-items: center; height: 100%"
-              mat-icon-button
-              matListItemMeta
-              [matMenuTriggerFor]="menu"
-            >
-              <app-custom-icon
-                [iconName]="'menu'"
-                [iconColor]="'gray'"
-                [iconSize]="24"
-              ></app-custom-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button
-                mat-menu-item
-                (click)="updateTaskItemStatus(task.id, 'InWork')"
-              >
-                <mat-icon>bolt</mat-icon>
-                <span>Take in work</span>
-              </button>
-              <button
-                mat-menu-item
-                (click)="updateTaskItemStatus(task.id, 'Pending')"
-              >
-                <mat-icon>schedule</mat-icon>
-                <span>Put on hold</span>
-              </button>
-              <button
-                mat-menu-item
-                (click)="updateTaskItemStatus(task.id, 'Done')"
-              >
-                <mat-icon>done</mat-icon>
-                <span>Task done</span>
-              </button>
-            </mat-menu>
-            <div class="status-line" [ngClass]="task.status"></div>
-          </mat-list-item>
-          }
-        </mat-list>
-      </div>
-    </div> -->
-
-  <!-- <div class="rounded-box github-commits">
-      <div class="header">
-        <h4>Last Commits</h4>
-        @if(checkRole(project, 'Administrator')){
-        <button class="empty-btn" (click)="openGithubSettings(project)">
-          <img src="/assets/github.png" alt="github" />
-        </button>
-        }
-      </div> -->
-  <!-- 
-      <div class="commits-list">
-        <mat-list role="list" class="custom-mat-list-items">
-          @for (commit of project?.githubRepository?.githubCommits; track
-          commit) {
-          <mat-list-item>
-            <div matListItemTitle>{{ commit.author }}</div>
-            <div matListItemLine>{{ commit.message }}</div>
-          </mat-list-item>
-          }
-        </mat-list>
-      </div>
-    </div>
-  </div> -->
-
-  <!-- For preview -->
-  <!-- <div
-    style="
-      display: flex;
-      height: 100%;
-      margin-top: 1rem;
-      gap: 1rem;
-      flex-wrap: wrap;
-    "
-  >
-    <div class="rounded-box" style="flex: 1">
-      <div
-        style="display: flex; justify-content: space-between; padding: 0.5rem"
-      >
-        <h4>Members</h4>
-        @if(checkRole(project, 'Administrator')){
-        <button
-          class="empty-btn"
-          (click)="generateInvitationLinkAndCopy(project.id)"
-        >
-          <app-custom-icon
-            [iconName]="'add_link'"
-            [iconColor]="'gray'"
-            [iconSize]="24"
-          ></app-custom-icon>
-        </button>
-        }
-      </div>
-      <div>
-        <div class="flex-column" style="padding: 0.5rem">
-          <div>
-            @for(member of project.members; track member){
-            <div>
-              <span>{{ member.username }}</span>
-            </div>
-            }
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div
-      style="
-        flex: 1;
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        padding: 0;
-        height: 100%;
-        background-color: white;
-      "
-    >
-      <div class="chat-container">
-        <div class="messages">
-          <div class="message from-other">Hello! How can I help you?</div>
-          <div class="message from-me">
-            I need help with the project status.
-          </div>
-        </div>
-
-        <div class="chat-input">
-          <textarea placeholder="Type your message..."></textarea>
-          <button mat-flat-button color="primary">Send</button>
-        </div>
-      </div>
-    </div>
-  </div> -->
 </div>

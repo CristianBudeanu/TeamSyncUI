@@ -31,7 +31,7 @@
   </div>
 </div> -->
 
-<div *ngIf="statistics$ | async as stats" class="container pt-1 gap-1">
+<div *ngIf="statistics as stats" class="container p-1 gap-1">
   <div>
     <app-statistic-card
       [title]="'To Do'"
@@ -64,7 +64,31 @@
       [count]="stats.commits"
     ></app-statistic-card>
   </div>
-  <div style="grid-column: 1 / -1;">
-    
+  <div style="grid-column: 1 / -1">
+    <div class="flex-row" style="flex-wrap: wrap">
+      <div id="chart" style="flex: 1">
+        <apx-chart
+          [title]="chartOptions.title"
+          [series]="chartOptions.series"
+          [chart]="chartOptions.chart"
+          [dataLabels]="chartOptions.dataLabels"
+          [plotOptions]="chartOptions.plotOptions"
+          [legend]="chartOptions.legend"
+          [fill]="chartOptions.fill"
+          [stroke]="chartOptions.stroke"
+          [tooltip]="chartOptions.tooltip"
+          [xaxis]="chartOptions.xaxis"
+        ></apx-chart>
+      </div>
+
+      <!-- <div style="flex: 1">
+        <app-statistic-card
+          [title]="'Commits'"
+          [label]="'Total Commits'"
+          [color]="'#e1a13c'"
+          [count]="stats.commits"
+        ></app-statistic-card>
+      </div> -->
+    </div>
   </div>
 </div>

@@ -31,22 +31,25 @@ import { ProjectSettingsComponent } from '../project-settings/project-settings.c
 import { TaskCreateDialogComponent } from '../../tasks/task-create-dialog/task-create-dialog.component';
 import { ProjectGithubSettingsComponent } from '../project-github-settings/project-github-settings.component';
 import { ProjectHomeTabComponent } from '../project-home-tab/project-home-tab.component';
+import { ProjectTasksTabComponent } from "./project-tasks-tab/project-tasks-tab.component";
+import { TaskItemDto } from '../../../../core/models/task';
 
 @Component({
     selector: 'app-project-page',
     imports: [
-        NgIf,
-        CommonModule,
-        CustomIconComponent,
-        MatListModule,
-        MatProgressBarModule,
-        MatMenuModule,
-        MatIconModule,
-        MatButtonModule,
-        RouterModule,
-        MatTabsModule,
-        ProjectHomeTabComponent,
-    ],
+    NgIf,
+    CommonModule,
+    CustomIconComponent,
+    MatListModule,
+    MatProgressBarModule,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
+    RouterModule,
+    MatTabsModule,
+    ProjectHomeTabComponent,
+    ProjectTasksTabComponent
+],
     templateUrl: './project-page.component.html',
     styleUrl: './project-page.component.scss'
 })
@@ -79,6 +82,7 @@ export class ProjectPageComponent implements OnInit {
       )
     );
   }
+
 
   openDialog(): void {
     this.dialog.open(ProjectSettingsComponent, {
@@ -151,5 +155,9 @@ export class ProjectPageComponent implements OnInit {
   onImageError(event: Event): void {
     const imgElement = event.target as HTMLImageElement;
     imgElement.src = 'assets/noImage.jpg';
+  }
+
+  getCurrentTask(tasks: TaskItemDto[]): TaskItemDto | null {
+    return tasks?.find(t => t.status === 'InWork') || null;
   }
 }

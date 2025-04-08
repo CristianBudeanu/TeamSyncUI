@@ -14,8 +14,8 @@
 
   .project-content {
     flex-wrap: wrap;
-    background-color: #f2f5f9;
-    border-top: 0.25px solid #e7eff9;
+    // background-color: 		#F5F5F5;
+    // border-top: 0.25px solid 		#F5F5F5;
 
     .progress-container {
       display: flex;
@@ -146,4 +146,22 @@
       height: 40px;
     }
   }
+}
+
+
+.date-badge {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0px 2px 0px;
+  border-radius: 20px;
+  background-color: #eeeeee;
+  font-weight: bold;
+  font-size: 7px;
+  color: #000000;
+}
+
+.date-icon {
+  font-size: 10px;
 }

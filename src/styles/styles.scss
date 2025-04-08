@@ -8,9 +8,9 @@
 @use "./overrides-material.scss";
 @use "./custom-style.scss";
 
-@import "ngx-toastr/toastr";
-@import "../../node_modules/angular-calendar/scss/angular-calendar.scss";
-@import "font-awesome/scss/font-awesome";
+@use "ngx-toastr/toastr";
+@use "../../node_modules/angular-calendar/scss/angular-calendar.scss";
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 
 html,
 body {
@@ -18,7 +18,22 @@ body {
   padding: 0;
   height: 100%;
   font-family: "Noto Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-weight: 400;
+  font-variation-settings: "wdth" 100;
   background-color: var.$gray-100;
+
+  @include mat.theme((
+    typography: (
+      plain-family: 'Noto Sans',
+      brand-family: 'Noto Sans',
+      bold-weight: 700,
+      medium-weight: 500,
+      regular-weight: 400,
+    ),
+    density: 0,
+  ));
 }
 
 h1,

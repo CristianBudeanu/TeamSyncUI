@@ -61,3 +61,8 @@
 .gray-bg {
   background-color: var.$gray-200;
 }
+
+.vertical-divider {
+  border-left:1px solid var.$gray-400;
+  height:100%
+}
