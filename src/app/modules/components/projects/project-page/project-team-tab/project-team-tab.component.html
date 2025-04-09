@@ -1,42 +1,103 @@
-<div class="flex-row gap-1 p-1 container">
-  <div class="users-list p-1">
+<!-- <div
+    class="users-list p-1"
+    [ngClass]="{ hidden: !isUserListOpen, shown: isUserListOpen }"
+  >
     <mat-list>
-      <mat-list-item *ngFor="let user of chatService.onlineUsers">
-        <div class="flex-row gap-1">
-          <mat-icon matListIcon>person</mat-icon>
-          <h4 matLine>{{ user }}</h4>
+      <mat-list-item *ngFor="let user of project.members">
+        <div class="flex-row" style="gap: 0.5rem; align-items: center">
+          <app-custom-icon
+            [iconSize]="18"
+            [iconName]="'person'"
+            [iconColor]="
+              chatService.onlineUsers.includes(user.username) ? 'green' : 'red'
+            "
+          ></app-custom-icon>
+          <h6 matLine>{{ user.username }}</h6>
         </div>
       </mat-list-item>
     </mat-list>
-  </div>
-  <div class="chat-group">
-    <mat-card class="chat-container">
-      <mat-card-header>
-        <mat-card-title>Team Chat</mat-card-title>
-      </mat-card-header>
+  </div> -->
 
-      <mat-card-content class="messages-window">
-        <div
-          *ngFor="let msg of chatService.messages"
-          class="message"
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="over">
+    <div [ngClass]="{ hidden: !isUserListOpen, shown: isUserListOpen }">
+      <mat-list>
+        <mat-list-item *ngFor="let user of project.members">
+          <div
+            class="flex-row"
+            style="gap: 0.5rem; align-items: center; width: fit-content"
+          >
+            <app-custom-icon
+              [iconSize]="18"
+              [iconName]="'person'"
+              [iconColor]="
+                chatService.onlineUsers.includes(user.username)
+                  ? 'green'
+                  : 'red'
+              "
+            ></app-custom-icon>
+            <h6 matLine>{{ user.username }}</h6>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </mat-drawer>
+  <div class="flex-row gap-1 p-1 container">
+    <!-- Chat Section -->
+    <div class="chat-group">
+      <mat-card class="chat-container">
+        <mat-card-header
+          class="flex-row"
+          style="justify-content: space-between"
         >
-          <div class="bubble">{{ msg.message }}</div>
-        </div>
-      </mat-card-content>
+          <mat-card-title>Team Chat</mat-card-title>
+          <button class="empty-btn" (click)="drawer.toggle()">
+            <app-custom-icon
+              [iconSize]="28"
+              [iconName]="'person'"
+              [iconColor]="'gray'"
+            ></app-custom-icon>
+          </button>
+        </mat-card-header>
 
-      <mat-card-actions class="chat-input">
-        <mat-form-field class="input-field" appearance="outline">
-          <input
-            matInput
-            placeholder="Type your message..."
-            [(ngModel)]="newMessage"
-            (keyup.enter)="sendMessage()"
-          />
-        </mat-form-field>
-        <button mat-icon-button color="primary" (click)="sendMessage()">
-          <mat-icon>send</mat-icon>
-        </button>
-      </mat-card-actions>
-    </mat-card>
+        <mat-card-content class="messages-window" #scrollMe>
+          <div
+            *ngFor="let msg of chatService.messages"
+            class="message"
+            [ngClass]="{
+              'from-me': msg.fromUsername === username,
+              'from-others': msg.fromUsername !== username
+            }"
+          >
+            <div class="flex-column">
+              <sub>{{ msg.fromUsername }}</sub>
+              <div
+                class="bubble"
+                [ngClass]="{
+                  'my-bubble': msg.fromUsername === username,
+                  'other-bubble': msg.fromUsername !== username
+                }"
+              >
+                {{ msg.message }}
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions class="chat-input">
+          <mat-form-field class="input-field" appearance="outline">
+            <input
+              matInput
+              placeholder="Type your message..."
+              [(ngModel)]="newMessage"
+              (keyup.enter)="sendMessage()"
+            />
+          </mat-form-field>
+          <button mat-icon-button color="primary" (click)="sendMessage()">
+            <mat-icon>send</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
   </div>
-</div>
+</mat-drawer-container>

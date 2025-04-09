@@ -13,7 +13,8 @@ export class ChatService {
   private readonly storageService = inject(StorageService);
   private chatConnection?: HubConnection;
   onlineUsers: string[] = [];
-  messages: ChatMessage[] = [];
+  private projectMessages: { [projectId: string]: ChatMessage[] } = {};
+  private currentProjectId: string = '';
 
   constructor(private http: HttpClient) {}
 
@@ -21,53 +22,83 @@ export class ChatService {
     const body = { username };
     console.log(username);
 
-
     return this.http.post(`${this.chatController}/RegisterUser`, body, {
       responseType: 'text',
     });
   }
 
-  createChatConnection() {
+  get messages(): ChatMessage[] {
+    return this.projectMessages[this.currentProjectId] || [];
+  }
+
+  setMessagesForProject(projectId: string, messages: ChatMessage[]): void {
+    this.projectMessages[projectId] = messages;
+  }
+
+  createChatConnection(projectId: string) {
+    this.currentProjectId = projectId;
+
     this.chatConnection = new HubConnectionBuilder()
       .withUrl(`${environment.apiUrl}/hubs/chat`)
       .withAutomaticReconnect()
       .build();
 
-    this.chatConnection.start().catch((error) => {
-      console.log(error);
-    });
+    this.chatConnection
+      .start()
+      .then(() => {
+        this.chatConnection!.invoke(
+          'JoinProjectChat',
+          this.storageService.getUsername(),
+          projectId
+        );
+      })
+      .catch((err) => console.error(err));
 
-    this.chatConnection.on('UserConnected', () => {
-      this.addUserConnectionId();
-    });
+    this.chatConnection.on('UserConnectedToProject', () =>
+      console.log('Joined project chat')
+    );
+    this.chatConnection.on(
+      'OnlineUsers',
+      (users: string[]) => (this.onlineUsers = users)
+    );
 
-    this.chatConnection.on('OnlineUsers', (onlineUsers) => {
-      this.onlineUsers = [...onlineUsers];
+    this.chatConnection.on('NewMessage', (msg: ChatMessage) => {
+      if (!this.projectMessages[this.currentProjectId]) {
+        this.projectMessages[this.currentProjectId] = [];
+      }
+      this.projectMessages[this.currentProjectId].push(msg);
     });
+  }
 
-    this.chatConnection.on('NewMessage', (newMessage : ChatMessage) => {
-        this.messages = [...this.messages, newMessage];
-    })
+  private async joinProjectChat() {
+    return this.chatConnection
+      ?.invoke(
+        'JoinProjectChat',
+        this.storageService.getUsername(),
+        this.currentProjectId
+      )
+      .catch((error) => console.log(error));
   }
 
   stopChatConnection() {
-    this.chatConnection?.stop().catch((error) => console.log(error));
+    this.chatConnection?.stop();
   }
 
-  async addUserConnectionId() {
+  sendMessage(content: string) {
+    const message: ChatMessage = {
+      fromUsername: this.storageService.getUsername() || '',
+      message: content,
+      // sentAt: 
+    };
+
     return this.chatConnection
-      ?.invoke('AddUserConnectionId', this.storageService.getUsername())
-      .catch((error) => console.log(error));
+      ?.invoke('SendMessageToProject', this.currentProjectId, message)
+      .catch((err) => console.error(err));
   }
 
-  async sendMessage(messageToSend: string) {
-    const message : ChatMessage = {
-      from: this.storageService.getUsername() || '',
-      message: messageToSend
-    }
-
-    return this.chatConnection
-      ?.invoke('ReceiveMessage', message)
-      .catch((error) => console.log(error));
+  loadMessageHistory(projectId: string) {
+    return this.http.get<ChatMessage[]>(
+      `${this.chatController}/GetProjectMessages?projectId=${projectId}`
+    );
   }
 }

@@ -1,5 +1,5 @@
 export interface ChatMessage {
-    from: string;
-    to?: string;
+    fromUsername: string;
     message: string;
+    sentAt?: string;
 }

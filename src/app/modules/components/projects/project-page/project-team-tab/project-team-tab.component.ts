@@ -1,19 +1,22 @@
 import {
+  AfterViewChecked,
+  AfterViewInit,
   Component,
+  ElementRef,
   inject,
-  InjectionToken,
   Input,
   OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
-import { Project } from '../../../../../core/models/project/project';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
-import { StorageService } from '../../../../../core/services/storage.service';
-import { ChatService } from '../../../../../core/services/chat.service';
 import { MatCardModule } from '@angular/material/card';
-import { FormsModule } from '@angular/forms';
+import { Project } from '../../../../../core/models/project/project';
+import { ChatService } from '../../../../../core/services/chat.service';
+import { StorageService } from '../../../../../core/services/storage.service';
 import {
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
   MatFormFieldDefaultOptions,
@@ -21,6 +24,8 @@ import {
 } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { CustomIconComponent } from '../../../../shared/custom-icon/custom-icon.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-project-team-tab',
@@ -33,6 +38,8 @@ import { MatInputModule } from '@angular/material/input';
     MatIconModule,
     MatListModule,
     CommonModule,
+    CustomIconComponent,
+    MatSidenavModule
   ],
   providers: [
     {
@@ -43,37 +50,68 @@ import { MatInputModule } from '@angular/material/input';
   templateUrl: './project-team-tab.component.html',
   styleUrl: './project-team-tab.component.scss',
 })
-export class ProjectTeamTabComponent implements OnInit, OnDestroy {
-  @Input() project!: Project;
-  storageService = inject(StorageService);
-  chatService = inject(ChatService);
-  users = Array.from({ length: 20 }, (_, i) => ({ name: `User ${i + 1}` }));
-  apiErrorMessages: string[] = [];
+export class ProjectTeamTabComponent
+  implements OnInit, OnDestroy, AfterViewChecked
+{
+  username = '';
+  showFiller = false;
+  isUserListOpen = false;
   newMessage: string = '';
+  @Input() project!: Project;
+  apiErrorMessages: string[] = [];
+  chatService = inject(ChatService);
+  storageService = inject(StorageService);
+  @ViewChild('scrollMe') private scrollContainer!: ElementRef;
+
+  ngOnInit(): void {
+    this.username = this.storageService.getUsername() || '';
+    const projectId = this.project.id;
+
+    this.chatService.registerUser(this.username).subscribe({
+      next: () => {
+        // 1. Load existing chat history
+        this.chatService.loadMessageHistory(projectId).subscribe({
+          next: (messages) => {
+            this.chatService.setMessagesForProject(projectId, messages);
+            this.scrollToBottom();
+            // 2. Then connect to SignalR
+            this.chatService.createChatConnection(projectId);
+          },
+          error: (err) => {
+            console.error('Failed to load messages:', err);
+          },
+        });
+      },
+      error: (err) => {
+        if (typeof err.error !== 'object') {
+          this.apiErrorMessages.push(err.error);
+        }
+      },
+    });
+  }
 
   sendMessage() {
-    if (this.newMessage.trim() !== "") {
-      this.newMessage =this.newMessage.trim();
-
-      this.chatService.sendMessage(this.newMessage);
+    if (this.newMessage.trim()) {
+      this.chatService.sendMessage(this.newMessage.trim());
+      this.newMessage = '';
     }
   }
 
-  ngOnInit(): void {
-    this.chatService
-      .registerUser(this.storageService.getUsername() || '')
-      .subscribe({
-        next: () => {
-          console.log('open chat');
-        },
-        error: (error) => {
-          if (typeof error.error !== 'object') {
-            this.apiErrorMessages.push(error.error);
-          }
-        },
-      });
+  scrollToBottom(): void {
+    try {
+      this.scrollContainer.nativeElement.scrollTop =
+        this.scrollContainer.nativeElement.scrollHeight;
+    } catch (err) {
+      console.error('Scroll error:', err);
+    }
+  }
 
-    this.chatService.createChatConnection();
+  toggleUserList() {
+    this.isUserListOpen = !this.isUserListOpen;
+  }
+
+  ngAfterViewChecked(): void {
+    this.scrollToBottom();
   }
 
   ngOnDestroy(): void {

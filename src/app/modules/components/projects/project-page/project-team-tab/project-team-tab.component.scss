@@ -16,7 +16,6 @@
     flex: 1;
     // justify-content: center;
 
-
     .chat-container {
       width: 100%;
       display: flex;
@@ -24,13 +23,13 @@
       justify-content: space-between;
       border-radius: 12px;
 
-      mat-card-header{
+      mat-card-header {
         padding: 1rem;
       }
     }
 
     .messages-window {
-      flex: 1;
+      //   flex: 1;
       overflow-y: auto;
       padding: 1rem;
       display: flex;
@@ -41,28 +40,44 @@
       .message {
         margin-bottom: 10px;
         display: flex;
+        // flex: 0.5;
 
-        &.sent {
+        &.from-me {
           justify-content: flex-end;
 
+          .flex-column {
+            align-items: flex-end;
+          }
+
           .bubble {
-            color: black;
+            background-color: #1976d2;
+            color: white;
+            text-align: right;
+            border-top-right-radius: 0;
+            text-align: left;
           }
         }
 
-        &.received {
+        &.from-others {
           justify-content: flex-start;
+
+          .flex-column {
+            align-items: flex-start;
+          }
 
           .bubble {
             background-color: #e0e0e0;
             color: #000;
+            text-align: left;
+            border-top-left-radius: 0;
+            text-align: left;
           }
         }
 
         .bubble {
           padding: 10px 15px;
           border-radius: 20px;
-          max-width: 70%;
+          max-width: fit-content;
           word-wrap: break-word;
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
@@ -72,7 +87,7 @@
     .chat-input {
       display: flex;
       align-items: center;
-    //   padding: 10px;
+      //   padding: 10px;
 
       .input-field {
         flex: 1;
@@ -90,3 +105,21 @@
     }
   }
 }
+
+.example-container {
+  width: fit-content;
+//   padding: 1rem;
+  height: 100%;
+}
+
+// .example-sidenav-content {
+//   display: flex;
+//   align-items: center;
+//   height: 100%;
+//   justify-content: center;
+// }
+
+.example-sidenav {
+    width: fit-content;
+    // padding: 1rem;
+  }
