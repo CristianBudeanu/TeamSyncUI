@@ -2,6 +2,8 @@ import { TaskPriority } from "../enums/task.priority";
 
 export interface TaskItemDto {
     id: string;
+    projectName: string;
+    projectImage: string;
     title: string;
     description: string;
     priority: TaskPriority;

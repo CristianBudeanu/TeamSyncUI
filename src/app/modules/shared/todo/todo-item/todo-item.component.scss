@@ -1,0 +1,26 @@
+
+
+.status-line {
+  position: absolute;
+  top: 5px;
+  left:0;
+  width: 5px;
+  height: 85%;
+  border-radius: 15px;
+
+  &.Pending {
+    background-color: #fdd835; // yellow
+  }
+
+  &.InWork {
+    background-color: #43a047; // green
+  }
+
+  &.Done {
+    background-color: #fb8c00; // orange
+  }
+
+  &.Closed {
+    background-color: #e53935; // red
+  }
+}

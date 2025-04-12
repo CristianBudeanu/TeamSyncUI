@@ -1,15 +1,33 @@
-<mat-card class="example-card" appearance="outlined">
-  <mat-card-header>
+<mat-card appearance="outlined" >
+    <div class="status-line" [ngClass]="task.status"></div>
+  <!-- <mat-card-header>
     <mat-card-title-group>
       <mat-card-title>{{title}}</mat-card-title>
       <mat-card-subtitle>{{subtitle}}</mat-card-subtitle>
-      <!-- <img
+      <img
         mat-card-sm-image
         src={{image}}
-      /> -->
+      />
     </mat-card-title-group>
-  </mat-card-header>
+  </mat-card-header> -->
   <mat-card-content>
-    {{ description }}
+    <div class="details">
+      <div class=" flex-center" style="margin-bottom: 0.25rem;">
+        <div class="flex-column">
+        <sub style="font-size: 10px; color: gray;">Task</sub>
+        <span>{{ task.title }}</span>
+      </div>
+      </div>
+      <div class="flex-row" style="align-items: center; gap: 0.25rem; justify-content: flex-end;">
+        <img
+        style="height: 16px; width: 16px; border-radius: 15px"
+        [src]="getProjectImage(task.projectImage)"
+        (error)="onImageError($event)"
+        alt="Team Image"
+        />
+        <span style="font-size: 12px;">{{ task.projectName }}</span>
+      </div>
+    </div>
   </mat-card-content>
+
 </mat-card>

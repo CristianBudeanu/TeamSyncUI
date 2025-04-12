@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  height: 100%;
+  height: calc(100% - 32px);
   .tasks-list {
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     border-radius: 15px;
@@ -57,7 +57,7 @@
   .commits-container {
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     border-radius: 15px;
-    max-height: 250px;
+    max-height: 230px;
 
     .header {
       justify-content: space-between;

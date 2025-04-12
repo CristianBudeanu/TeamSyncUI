@@ -12,19 +12,14 @@
       </div>
     </div>
 
-    <button class="new-task-button" (click)="openTaskCreationDialog(project)">
-      <span class="plus-icon">+</span>
-      <span class="text">New task</span>
-    </button>
-
-    <!-- <div class="filters flex-row gap-1">
-      <h4>Priority</h4>
-      <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-        <mat-button-toggle value="high">High</mat-button-toggle>
-        <mat-button-toggle value="medium">Medium</mat-button-toggle>
-        <mat-button-toggle value="low">Low</mat-button-toggle>
-      </mat-button-toggle-group>
-    </div> -->
+    <button
+    class="new-task-button"
+    (click)="openTaskCreationDialog(project)"
+    [disabled]="!checkRole(project, 'Administrator')"
+    matTooltip="{{ !checkRole(project, 'Administrator') ? 'You do not have access rights.' : '' }}">
+    <span class="plus-icon">+</span>
+    <span class="text">New task</span>
+  </button>
     <mat-divider></mat-divider>
 
     <mat-accordion multi>

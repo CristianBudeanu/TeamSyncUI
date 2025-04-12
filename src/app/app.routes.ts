@@ -10,6 +10,7 @@ import { ProjectPageComponent } from './modules/components/projects/project-page
 import { AcceptInvitationComponent } from './modules/components/projects/accept-invitation/accept-invitation.component';
 import { LayoutComponent } from './modules/layout/layout.component';
 import { AuthLayoutComponent } from './modules/layout/auth-layout/auth-layout.component';
+import { ChatComponent } from './modules/components/chat/chat.component';
 
 export const routes: Routes = [
   {
@@ -39,7 +40,12 @@ export const routes: Routes = [
         path: 'calendar',
         component: CalendarComponent,
         canActivate: [authGuard],
-      }, //Need to be deleted
+      },
+      {
+        path: 'chat',
+        component: ChatComponent,
+        canActivate: [authGuard]
+      },
       { path: 'todo', component: TodoComponent, canActivate: [authGuard] }, //Need to be deleted
       {
         path: 'accept-invitation/:invitationToken',

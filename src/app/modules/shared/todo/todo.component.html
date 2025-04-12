@@ -4,11 +4,12 @@
       <div
         cdkDropList
         [cdkDropListData]="todo"
+        id="todo-list"
         class="example-list"
         (cdkDropListDropped)="drop($event)">
         @for (item of todo; track item) {
           <div class="example-box" cdkDrag [cdkDragStartDelay]="200">
-            <app-todo-item [title]="item.title" [subtitle]="item.subtitle" [description]="item.description"></app-todo-item>
+            <app-todo-item [task]='item'></app-todo-item>
           </div>
         }
       </div>
@@ -20,11 +21,12 @@
         <div
           cdkDropList
           [cdkDropListData]="doing"
+          id="doing-list"
           class="example-list"
           (cdkDropListDropped)="drop($event)">
           @for (item of doing; track item) {
             <div class="example-box" cdkDrag [cdkDragStartDelay]="200">
-                <app-todo-item [title]="item.title" [subtitle]="item.subtitle" [description]="item.description"></app-todo-item>
+                <app-todo-item [task]="item"></app-todo-item>
             </div>
           }
         </div>
@@ -35,11 +37,12 @@
       <div
         cdkDropList
         [cdkDropListData]="done"
+        id="done-list"
         class="example-list"
         (cdkDropListDropped)="drop($event)">
         @for (item of done; track item) {
           <div class="example-box" cdkDrag [cdkDragStartDelay]="200">
-            <app-todo-item [title]="item.title" [subtitle]="item.subtitle" [description]="item.description"></app-todo-item>
+            <app-todo-item [task]="item"></app-todo-item>
           </div>
         }
       </div>

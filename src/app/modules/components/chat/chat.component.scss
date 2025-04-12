@@ -1,0 +1,139 @@
+.container {
+  height: calc(100% - 32px);
+
+  .users-list {
+    display: flex;
+    flex: 0.25;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 15px;
+    max-height: 100%;
+    overflow: auto;
+    // background-color: black;
+  }
+
+  .chat-group {
+    display: flex;
+    flex: 1;
+    // justify-content: center;
+
+    .chat-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-radius: 12px;
+
+      mat-card-header {
+        padding: 1rem;
+      }
+    }
+
+    .messages-window {
+      //   flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      background: #f9f9f9;
+      scroll-behavior: smooth;
+      height: 100%;
+
+      .message {
+        margin-bottom: 10px;
+        display: flex;
+        // flex: 0.5;
+
+        &.from-me {
+          justify-content: flex-end;
+
+          .flex-column {
+            align-items: flex-end;
+          }
+
+          .bubble {
+            background-color: #1976d2;
+            color: white;
+            text-align: right;
+            border-top-right-radius: 0;
+            text-align: left;
+          }
+        }
+
+        &.from-others {
+          justify-content: flex-start;
+
+          .flex-column {
+            align-items: flex-start;
+          }
+
+          .bubble {
+            background-color: #e0e0e0;
+            color: #000;
+            text-align: left;
+            border-top-left-radius: 0;
+            text-align: left;
+          }
+        }
+
+        .bubble {
+          padding: 10px 15px;
+          border-radius: 20px;
+          max-width: fit-content;
+          word-wrap: break-word;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+
+    .chat-input {
+      display: flex;
+      align-items: center;
+      //   padding: 10px;
+
+      .input-field {
+        flex: 1;
+        // margin-right: 10px;
+
+        input {
+          font-size: 14px;
+        }
+      }
+
+      button {
+        min-width: 48px;
+        height: 48px;
+      }
+    }
+  }
+}
+
+.example-container {
+  width: 100%;
+  //   padding: 1rem;
+  height: 100%;
+}
+
+.example-sidenav-content {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  justify-content: center;
+}
+
+.example-sidenav {
+  width: fit-content;
+  // padding: 1rem;
+}
+
+mat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-height: 100%;
+  overflow: auto;
+}
+
+
+.selected {
+    background-color: #eeeeee;
+  }
