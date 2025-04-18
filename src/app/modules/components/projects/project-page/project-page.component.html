@@ -17,6 +17,13 @@
               [iconSize]="24"
             ></app-custom-icon>
           </button>
+          <button class="empty-btn" (click)="generateInvitationLinkAndCopy(project.id)">
+            <app-custom-icon
+              [iconColor]="'gray'"
+              [iconName]="'share'"
+              [iconSize]="24"
+            ></app-custom-icon>
+          </button>
         </div>
         <sub>{{ project.description }}</sub>
       </div>
@@ -65,7 +72,7 @@
       <app-project-home-tab [project]="project"></app-project-home-tab>
     </mat-tab>
     <mat-tab label="Tasks">
-      <app-project-tasks-tab [project]="project"></app-project-tasks-tab>
+      <app-project-tasks-tab (refreshProject)="refreshProject()" [project]="project"></app-project-tasks-tab>
     </mat-tab>
     <mat-tab label="Team">
       <app-project-team-tab [project]="project"></app-project-team-tab>

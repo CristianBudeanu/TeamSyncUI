@@ -12,6 +12,7 @@ import { StorageService } from '../../../../core/services/storage.service';
 import { LoginModel } from '../../../../core/models/authModels/login.model';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoadingService } from '../../../../core/services/loading.service';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
     selector: 'app-login',
@@ -22,13 +23,15 @@ import { LoadingService } from '../../../../core/services/loading.service';
         MatInputModule,
         MatButtonModule,
         MatFormFieldModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatProgressSpinner
     ],
     templateUrl: './login.component.html',
     styleUrl: './login.component.scss'
 })
 export class LoginComponent {
   hide = true;
+  loading = false;
   private router = inject(Router);
   private toastr = inject(ToastrService);
   private authService = inject(AuthService);
@@ -54,6 +57,7 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
+      this.loading = true;
       this.logModel = this.loginForm.value;
       this.authService.login(this.logModel).subscribe({
         next: result => {
@@ -63,12 +67,12 @@ export class LoginComponent {
             this.authService.isLoggedIn$.next(true);
             this.toastr.success('Welcome, ' + this.storageService.getUsername(), 'Success')
             this.router.navigate(['projects']);
-            this.loadingService.hide();
+            this.loading = false;
           }
         },
         error: () => {
           this.toastr.error('Username or password is incorrect!', 'Error')
-          this.loadingService.hide();
+          this.loading = false;
         }
       })
     }

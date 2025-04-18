@@ -6,37 +6,47 @@
       <div class="stats flex-row gap-1">
         <span>Total Tasks: {{ this.project.userTasks.length }}</span>
         <div class="vertical-divider"></div>
-        <span>Pending: {{getTaskCountByStatus('Pending')}}</span>
+        <span>Pending: {{ getTaskCountByStatus("Pending") }}</span>
         <div class="vertical-divider"></div>
-        <span>Completed: {{getTaskCountByStatus('Done')}}</span>
+        <span>Completed: {{ getTaskCountByStatus("Done") }}</span>
       </div>
     </div>
 
     <button
-    class="new-task-button"
-    (click)="openTaskCreationDialog(project)"
-    [disabled]="!checkRole(project, 'Administrator')"
-    matTooltip="{{ !checkRole(project, 'Administrator') ? 'You do not have access rights.' : '' }}">
-    <span class="plus-icon">+</span>
-    <span class="text">New task</span>
-  </button>
+      class="new-task-button"
+      (click)="openTaskCreationDialog(project)"
+      [disabled]="!checkRole(project, 'Administrator')"
+      matTooltip="{{
+        !checkRole(project, 'Administrator')
+          ? 'You do not have access rights.'
+          : ''
+      }}"
+    >
+      <span class="plus-icon">+</span>
+      <span class="text">New task</span>
+    </button>
     <mat-divider></mat-divider>
 
     <mat-accordion multi>
       <!-- High Priority Panel -->
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title class="flex-row" style="gap: 0.25rem; padding: 1rem 0rem 1rem;">
+          <mat-panel-title
+            class="flex-row"
+            style="gap: 0.25rem; padding: 1rem 0rem 1rem"
+          >
             <app-custom-icon
               [iconName]="'priority_high'"
               [iconColor]="'red'"
               [iconSize]="18"
             ></app-custom-icon>
-            
-            <div [matBadge]="highPriorityTasks.length" matBadgeOverlap="false">High</div>
+
+            <div [matBadge]="highPriorityTasks.length" matBadgeOverlap="false">
+              High
+            </div>
           </mat-panel-title>
         </mat-expansion-panel-header>
-    
+
         <mat-list>
           @for (task of highPriorityTasks; track task) {
           <mat-list-item style="border: 1px solid gray; border-radius: 5px">
@@ -50,10 +60,12 @@
                   [iconColor]="'gray'"
                   [iconSize]="12"
                 ></app-custom-icon>
-                <span class="date-text">{{ task.createdDate | date : "mediumDate" }}</span>
+                <span class="date-text">{{
+                  task.createdDate | date : "mediumDate"
+                }}</span>
               </div>
             </span>
-    
+
             <button
               class="empty-btn"
               style="display: flex; align-items: center; height: 100%"
@@ -68,15 +80,24 @@
               ></app-custom-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="updateTaskItemStatus(task.id, 'InWork')">
+              <button
+                mat-menu-item
+                (click)="updateTaskItemStatus(task.id, 'InWork')"
+              >
                 <mat-icon>bolt</mat-icon>
                 <span>Take in work</span>
               </button>
-              <button mat-menu-item (click)="updateTaskItemStatus(task.id, 'Pending')">
+              <button
+                mat-menu-item
+                (click)="updateTaskItemStatus(task.id, 'Pending')"
+              >
                 <mat-icon>schedule</mat-icon>
                 <span>Put on hold</span>
               </button>
-              <button mat-menu-item (click)="updateTaskItemStatus(task.id, 'Done')">
+              <button
+                mat-menu-item
+                (click)="updateTaskItemStatus(task.id, 'Done')"
+              >
                 <mat-icon>done</mat-icon>
                 <span>Task done</span>
               </button>
@@ -86,20 +107,28 @@
           }
         </mat-list>
       </mat-expansion-panel>
-    
+
       <!-- Medium Priority Panel -->
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title class="flex-row" style="gap: 0.25rem; align-items: center;  padding: 1rem 0rem 1rem;">
+          <mat-panel-title
+            class="flex-row"
+            style="gap: 0.25rem; align-items: center; padding: 1rem 0rem 1rem"
+          >
             <app-custom-icon
               [iconName]="'priority_high'"
               [iconColor]="'#6e83e6'"
               [iconSize]="18"
             ></app-custom-icon>
-            <div [matBadge]="mediumPriorityTasks.length" matBadgeOverlap="false">Medium</div>
+            <div
+              [matBadge]="mediumPriorityTasks.length"
+              matBadgeOverlap="false"
+            >
+              Medium
+            </div>
           </mat-panel-title>
         </mat-expansion-panel-header>
-    
+
         <mat-list>
           @for (task of mediumPriorityTasks; track task) {
           <mat-list-item style="border: 1px solid gray; border-radius: 5px">
@@ -113,10 +142,12 @@
                   [iconColor]="'gray'"
                   [iconSize]="12"
                 ></app-custom-icon>
-                <span class="date-text">{{ task.createdDate | date : "mediumDate" }}</span>
+                <span class="date-text">{{
+                  task.createdDate | date : "mediumDate"
+                }}</span>
               </div>
             </span>
-    
+
             <button
               class="empty-btn"
               style="display: flex; align-items: center; height: 100%"
@@ -131,15 +162,24 @@
               ></app-custom-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="updateTaskItemStatus(task.id, 'InWork')">
+              <button
+                mat-menu-item
+                (click)="updateTaskItemStatus(task.id, 'InWork')"
+              >
                 <mat-icon>bolt</mat-icon>
                 <span>Take in work</span>
               </button>
-              <button mat-menu-item (click)="updateTaskItemStatus(task.id, 'Pending')">
+              <button
+                mat-menu-item
+                (click)="updateTaskItemStatus(task.id, 'Pending')"
+              >
                 <mat-icon>schedule</mat-icon>
                 <span>Put on hold</span>
               </button>
-              <button mat-menu-item (click)="updateTaskItemStatus(task.id, 'Done')">
+              <button
+                mat-menu-item
+                (click)="updateTaskItemStatus(task.id, 'Done')"
+              >
                 <mat-icon>done</mat-icon>
                 <span>Task done</span>
               </button>
@@ -149,20 +189,25 @@
           }
         </mat-list>
       </mat-expansion-panel>
-    
+
       <!-- Low Priority Panel -->
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title class="flex-row" style="gap: 0.25rem; align-items: center;  padding: 1rem 0rem 1rem;">
+          <mat-panel-title
+            class="flex-row"
+            style="gap: 0.25rem; align-items: center; padding: 1rem 0rem 1rem"
+          >
             <app-custom-icon
               [iconName]="'priority_high'"
               [iconColor]="'#86be75'"
               [iconSize]="18"
             ></app-custom-icon>
-            <div [matBadge]="lowPriorityTasks.length" matBadgeOverlap="false">Low</div>
+            <div [matBadge]="lowPriorityTasks.length" matBadgeOverlap="false">
+              Low
+            </div>
           </mat-panel-title>
         </mat-expansion-panel-header>
-    
+
         <mat-list>
           @for (task of lowPriorityTasks; track task) {
           <mat-list-item style="border: 1px solid gray; border-radius: 5px">
@@ -176,10 +221,12 @@
                   [iconColor]="'gray'"
                   [iconSize]="12"
                 ></app-custom-icon>
-                <span class="date-text">{{ task.createdDate | date : "mediumDate" }}</span>
+                <span class="date-text">{{
+                  task.createdDate | date : "mediumDate"
+                }}</span>
               </div>
             </span>
-    
+
             <button
               class="empty-btn"
               style="display: flex; align-items: center; height: 100%"
@@ -194,15 +241,24 @@
               ></app-custom-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="updateTaskItemStatus(task.id, 'InWork')">
+              <button
+                mat-menu-item
+                (click)="updateTaskItemStatus(task.id, 'InWork')"
+              >
                 <mat-icon>bolt</mat-icon>
                 <span>Take in work</span>
               </button>
-              <button mat-menu-item (click)="updateTaskItemStatus(task.id, 'Pending')">
+              <button
+                mat-menu-item
+                (click)="updateTaskItemStatus(task.id, 'Pending')"
+              >
                 <mat-icon>schedule</mat-icon>
                 <span>Put on hold</span>
               </button>
-              <button mat-menu-item (click)="updateTaskItemStatus(task.id, 'Done')">
+              <button
+                mat-menu-item
+                (click)="updateTaskItemStatus(task.id, 'Done')"
+              >
                 <mat-icon>done</mat-icon>
                 <span>Task done</span>
               </button>
@@ -270,9 +326,17 @@
 
   <div class="flex-column commits-container p-1 gap-1" style="flex: 1">
     <div class="header flex-row">
-      <div class="flex-column header-title">
-        <span>Commits</span>
-        <sub>Last 10 Commits</sub>
+      <div class="flex-row header-title">
+        <div class="flex-column">
+          <span>Commits</span>
+          <sub>Last 10 Commits</sub>
+        </div>
+
+        @if(checkRole(project, 'Administrator')){
+        <button class="empty-btn" (click)="openGithubSettings(project)">
+          <img style="height: 32px" src="/assets/github.png" alt="github" />
+        </button>
+        }
       </div>
 
       <div class="stats">

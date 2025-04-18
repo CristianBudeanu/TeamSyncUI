@@ -24,6 +24,7 @@ import { TaskItemCreateDto } from '../../../../core/models/task';
 import { TaskService } from '../../../../core/services/task.service';
 import { TaskPriority } from '../../../../core/enums/task.priority';
 import { NgFor } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-task-create-dialog',
@@ -49,6 +50,7 @@ export class TaskCreateDialogComponent {
   data = inject(MAT_DIALOG_DATA) as Project;
   private taskService = inject(TaskService);
   dialogRef = inject(MatDialogRef<TaskCreateDialogComponent>);
+  private toastr = inject(ToastrService);
   priorities = Object.values(TaskPriority);
 
   taskForm = this.fb.group({
@@ -79,11 +81,12 @@ export class TaskCreateDialogComponent {
 
     this.taskService.createTaskItem(this.data.id, taskDto).subscribe({
       next: () => {
-        this.dialogRef.close(true); // optionally pass `true` to indicate success
+        this.toastr.success('Task creat cu succes!', 'Success');
+        this.dialogRef.close();
       },
       error: (err) => {
+        this.toastr.error('Task creat cu insucces!', 'Error');
         console.error('Failed to create task', err);
-        // Optionally show an error message here
       },
     });
   }

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { Project } from '../../../../core/models/project/project';
 import { ProjectStatistics } from '../../../../core/models/project/projectStatistics';
 import { StatisticCardComponent } from '../../../shared/statistic-card/statistic-card.component';
@@ -41,126 +41,98 @@ export type ChartOptions = {
   templateUrl: './project-home-tab.component.html',
   styleUrl: './project-home-tab.component.scss',
 })
-export class ProjectHomeTabComponent implements OnChanges {
+export class ProjectHomeTabComponent implements OnChanges, AfterViewInit {
   @Input() project!: Project;
   statistics!: ProjectStatistics;
   @ViewChild('chart') chart!: ChartComponent;
   public chartOptions!: Partial<ColumnChartOptions> | any;
+  viewReady = false;
+
+  ngAfterViewInit(): void {
+    this.viewReady = true;
+    this.tryBuildChart();
+  }
 
   ngOnChanges(): void {
     if (!this.project) return;
+    
   
-    const now = new Date();
-    const tasks = this.project.userTasks ?? [];
+  // Update statistics first
+  const now = new Date();
+  const tasks = this.project.userTasks ?? [];
+
+  const todo = tasks.filter(t => t.status === 'Pending' || t.status === 'InWork').length;
+  const done = tasks.filter(t => t.status === 'Done' || t.status === 'Closed').length;
+  const overdue = tasks.filter(
+    t =>
+      (t.status === 'Pending' || t.status === 'InWork') &&
+      t.endDate &&
+      new Date(t.endDate) < now
+  ).length;
+
+  const commits = this.project.githubRepository?.githubCommits?.length ?? 0;
+  this.statistics = { todo, overdue, done, commits };
+
+  // Try build chart when input is ready
+  this.tryBuildChart();
+  }
+
+  tryBuildChart(): void {
+    if (!this.project || !this.viewReady) return;
   
-    const todo = tasks.filter(
-      (t) => t.status === 'Pending' || t.status === 'InWork'
-    ).length;
+    // Delay chart building to wait for DOM render
+    setTimeout(() => {
+      const weeklyData = this.getWeeklyCommitsByDay(this.project);
   
-    const done = tasks.filter(
-      (t) => t.status === 'Done' || t.status === 'Closed'
-    ).length;
-  
-    const overdue = tasks.filter(
-      (t) =>
-        (t.status === 'Pending' || t.status === 'InWork') &&
-        t.endDate &&
-        new Date(t.endDate) < now
-    ).length;
-  
-    const commits = this.project.githubRepository?.githubCommits?.length ?? 0;
-  
-    this.statistics = { todo, overdue, done, commits };
-  
-    // ✅ Chart now initialized when project is available
-    const weeklyData = this.getWeeklyCommitsByDay(this.project);
-    this.chartOptions = {
-      series: [
-        {
-          name: 'Commits',
+      this.chartOptions = {
+        series: [
+          {
+            name: 'Commits',
+            type: 'line',
+            data: weeklyData,
+          },
+        ],
+        chart: {
           type: 'line',
-          data: weeklyData,
+          height: 350,
+          width: '100%',
+          toolbar: { show: false },
+          zoom: { enabled: false },
         },
-      ],
-      chart: {
-        type: 'line',
-        height: 350,
-        width: '100%',
-        toolbar: {
-          show: false,
+        title: {
+          text: 'Weekly Github Commits',
+          align: 'left',
         },
-        zoom: {
-          enabled: false,
-        },
-      },
-      title: {
-        text: "Weekly Github Commits",
-        align: "left"
-      },
-      dataLabels: {
-        enabled: true,
-        style: {
-          fontSize: '14px',
-          fontWeight: 'bold',
-          colors: ['#495057'],
-        },
-        background: {
+        dataLabels: {
           enabled: true,
-          borderRadius: 4,
-          borderWidth: 1,
-          borderColor: '#ccc',
-          opacity: 0.9,
-        },
-      },
-      stroke: {
-        curve: 'straight',
-        width: 3,
-        colors: ['gray'],
-      },
-      xaxis: {
-        categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      },
-      markers: {
-        size: 6,
-        colors: ['#4e73df'],
-        strokeColors: '#fff',
-        strokeWidth: 2,
-        hover: {
-          size: 8,
-        },
-      },
-      tooltip: {
-        y: {
-          formatter: (val: number): string => `${val} commits`,
-        },
-      },
-      responsive: [
-        {
-          breakpoint: 768,
-          options: {
-            chart: {
-              height: 300,
-            },
-            xaxis: {
-              labels: {
-                rotate: -45,
-              },
-            },
+          style: {
+            fontSize: '14px',
+            fontWeight: 'bold',
+            colors: ['#495057'],
+          },
+          background: {
+            enabled: true,
+            borderRadius: 4,
+            borderWidth: 1,
+            borderColor: '#ccc',
+            opacity: 0.9,
           },
         },
-        {
-          breakpoint: 480,
-          options: {
-            chart: {
-              height: 250,
-            },
-            legend: {
-              position: 'bottom',
-            },
+        stroke: {
+          curve: 'straight',
+          width: 3,
+          colors: ['gray'],
+        },
+        xaxis: {
+          categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        },
+        tooltip: {
+          y: {
+            formatter: (val: number): string => `${val} commits`,
           },
         },
-      ],
-    };
+      };
+    }, 0);
   }
 
   getWeeklyCommitsByDay(project?: Project): number[] {

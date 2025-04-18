@@ -25,5 +25,6 @@ export interface ProjectCreate{
 export interface Member{
     id: string;
     username: string;
+    role: string;
 }
 

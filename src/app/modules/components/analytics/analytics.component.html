@@ -1,0 +1,58 @@
+<div class="flex-column container gap-1">
+  <div class="flex-row full-width" style="align-items: center">
+    <mat-form-field class="no-subscript" appearance="outline">
+      <mat-label>Project</mat-label>
+      <mat-select (selectionChange)="getProjectDetails($event.value)">
+        @for (project of projects; track project) {
+        <mat-option [value]="project.id">
+          <div class="flex-row" style="align-items: center; gap: 0.5rem">
+            <img
+              style="width: 32px; height: 32px; border-radius: 50%"
+              [src]="getProjectImage(project.image)"
+              (error)="onImageError($event)"
+              alt="Team Image"
+            />
+            {{ project.name }}
+          </div>
+        </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <img
+      style="height: 48px; width: 48px"
+      src="/assets/pdf-icon.png"
+      alt="pdf"
+    />
+  </div>
+  <div class="flex-row gap-1">
+    <div class="box flex-column gap-1">
+      <div class="header">Team</div>
+      <div class="content flex-column">
+        @if (projectDetails?.members) { @for (member of projectDetails.members;
+        track member) {
+        <div
+          class="flex-row"
+          style="width: 100%; justify-content: space-between; align-items: center;"
+        >
+          <span>{{ member.username }}</span>
+          <span style="color: grey; font-size: 12px;">{{member.role}}</span>
+        </div>
+        } }
+      </div>
+    </div>
+    <div class="box">
+      <div class="header">Tasks</div>
+      <div class="content"></div>
+    </div>
+  </div>
+  <div class="flex-row gap-1">
+    <div class="box">
+      <div class="header">Github</div>
+      <div class="content"></div>
+    </div>
+    <div class="box">
+      <div class="header">Teams</div>
+      <div class="content"></div>
+    </div>
+  </div>
+</div>

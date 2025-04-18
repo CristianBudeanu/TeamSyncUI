@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import {
+  BehaviorSubject,
   delay,
   EMPTY,
   filter,
@@ -64,25 +65,13 @@ export class ProjectPageComponent implements OnInit {
   private readonly invitationService = inject(InvitationService);
   private _snackBar = inject(MatSnackBar);
   private readonly loadingService = inject(LoadingService);
+  private readonly refreshTrigger$ = new BehaviorSubject<void>(undefined);
 
   isLoggedIn = false;
   project$: Observable<Project> = EMPTY;
 
   ngOnInit(): void {
-    this.project$ = this.route.paramMap.pipe(
-      map((params) => params.get('id') ?? ''),
-      filter((id) => !!id),
-      tap(() => {
-        this.loadingService.show();
-      }),
-      switchMap((id: string) =>
-        this.projectService.getProjectDetails(id).pipe(
-          tap((details) => console.log(details)),
-          delay(1000),
-          finalize(() => this.loadingService.hide())
-        )
-      )
-    );
+    this.loadProject();
   }
 
 
@@ -92,18 +81,12 @@ export class ProjectPageComponent implements OnInit {
     });
   }
 
-  checkRole(project: Project, role: string): boolean {
-    return project.userRoles.includes(role);
+  refreshProject(): void {
+    this.refreshTrigger$.next();
   }
 
-  openGithubSettings(project: Project) {
-    this.dialog.open(ProjectGithubSettingsComponent, {
-      width: '250px',
-      data: {
-        projectId: project.id,
-        githubRepository: project.githubRepository,
-      },
-    });
+  checkRole(project: Project, role: string): boolean {
+    return project.userRoles.includes(role);
   }
 
   async openTaskCreationDialog(project: Project) {
@@ -161,5 +144,24 @@ export class ProjectPageComponent implements OnInit {
 
   getCurrentTask(tasks: TaskItemDto[]): TaskItemDto | null {
     return tasks?.find(t => t.status === 'InWork') || null;
+  }
+
+  loadProject(): void {
+    this.project$ = this.refreshTrigger$.pipe(
+      tap(() => this.loadingService.show()),
+      switchMap(() =>
+        this.route.paramMap.pipe(
+          map((params) => params.get('id') ?? ''),
+          filter((id) => !!id),
+          switchMap((id: string) =>
+            this.projectService.getProjectDetails(id).pipe(
+              tap((details) => console.log(details)),
+              delay(1000),
+              finalize(() => this.loadingService.hide())
+            )
+          )
+        )
+      )
+    );
   }
 }

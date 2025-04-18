@@ -32,10 +32,19 @@
       </button>
     </mat-form-field>
 
-    <button mat-raised-button type="submit" [disabled]="!loginForm.valid">
-      Login
+
+    <button mat-raised-button type="submit" [disabled]="!loginForm.valid || loading">
+      <ng-container *ngIf="!loading; else loadingTpl">
+        Login
+      </ng-container>
+      <ng-template #loadingTpl>
+        <mat-progress-spinner
+          diameter="24"
+          mode="indeterminate"
+          color="accent"
+          [strokeWidth]="3">
+        </mat-progress-spinner>
+      </ng-template>
     </button>
   </form>
 </div>
-
-<!-- <app-loading></app-loading> -->

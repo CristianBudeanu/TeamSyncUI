@@ -12,31 +12,33 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ProjectService } from '../../../../core/services/project.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-    selector: 'app-create-project-form',
-    imports: [
-        ReactiveFormsModule,
-        MatInputModule,
-        FormsModule,
-        MatIconModule,
-        MatButtonModule,
-    ],
-    providers: [
-        {
-            provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-            useValue: { appearance: 'outline' },
-        },
-    ],
-    templateUrl: './create-project-form.component.html',
-    styleUrl: './create-project-form.component.scss'
+  selector: 'app-create-project-form',
+  imports: [
+    ReactiveFormsModule,
+    MatInputModule,
+    FormsModule,
+    MatIconModule,
+    MatButtonModule,
+  ],
+  providers: [
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'outline' },
+    },
+  ],
+  templateUrl: './create-project-form.component.html',
+  styleUrl: './create-project-form.component.scss',
 })
 export class CreateProjectFormComponent implements OnInit {
+  projectForm!: FormGroup;
+  private fb = inject(FormBuilder);
+  private toastr = inject(ToastrService);
+  private projectService = inject(ProjectService);
   private _bottomSheetRef =
     inject<MatBottomSheetRef<CreateProjectFormComponent>>(MatBottomSheetRef);
-  private fb = inject(FormBuilder);
-  private projectService = inject(ProjectService);
-  projectForm!: FormGroup;
 
   selectedFile: File | null = null;
   fileStatusMessage: string = 'Not selected file';
@@ -90,15 +92,17 @@ export class CreateProjectFormComponent implements OnInit {
       this.projectForm.get('projectDescription')?.value;
     formData.append('description', projectDescription);
 
-    this.projectService.newProject(formData).subscribe(
-      (response) => {
-        console.log('Upload successful', response);
+    this.projectService.newProject(formData).subscribe({
+      next: (response) => {
+        this.toastr.success('Proiect creat cu succes!', 'Success');
         this.projectForm.reset();
         this.selectedFile = null;
+        this._bottomSheetRef.dismiss(true);
       },
-      (error) => {
-        console.error('Upload failed', error);
-      }
-    );
+      error: (error) => {
+        // console.error('Upload failed', error);
+        this.toastr.success('Eroare la crearea proiectului.', 'Eroare');
+      },
+    });
   }
 }

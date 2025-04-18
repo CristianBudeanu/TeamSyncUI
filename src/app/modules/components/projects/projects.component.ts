@@ -12,16 +12,16 @@ import { Project } from '../../../core/models/project/project';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-    selector: 'app-projects',
-    imports: [
-        NgFor,
-        MatButtonModule,
-        MatCardModule,
-        MatButtonModule,
-        MatBottomSheetModule,
-    ],
-    templateUrl: './projects.component.html',
-    styleUrl: './projects.component.scss'
+  selector: 'app-projects',
+  imports: [
+    NgFor,
+    MatButtonModule,
+    MatCardModule,
+    MatButtonModule,
+    MatBottomSheetModule,
+  ],
+  templateUrl: './projects.component.html',
+  styleUrl: './projects.component.scss',
 })
 export class ProjectsComponent implements OnInit {
   private _bottomSheet = inject(MatBottomSheet);
@@ -32,6 +32,10 @@ export class ProjectsComponent implements OnInit {
   projects: Project[] = [];
 
   ngOnInit(): void {
+    this.loadProjects();
+  }
+
+  loadProjects(): void {
     this.projectService.getProjects().subscribe((projectsResult) => {
       this.projects = projectsResult;
       console.log(this.projects);
@@ -62,7 +66,14 @@ export class ProjectsComponent implements OnInit {
   }
 
   newProject() {
-    this._bottomSheet.open(CreateProjectFormComponent);
     const bottomSheetRef = this._bottomSheet.open(CreateProjectFormComponent);
+
+    bottomSheetRef.afterDismissed().subscribe((result) => {
+      if (result === true) {
+        setTimeout(() => {
+          this.loadProjects();
+        }, 300);
+      }
+    });
   }
 }

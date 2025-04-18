@@ -24,16 +24,18 @@ body {
   font-variation-settings: "wdth" 100;
   background-color: var.$gray-100;
 
-  @include mat.theme((
-    typography: (
-      plain-family: 'Noto Sans',
-      brand-family: 'Noto Sans',
-      bold-weight: 700,
-      medium-weight: 500,
-      regular-weight: 400,
-    ),
-    density: 0,
-  ));
+  @include mat.theme(
+    (
+      typography: (
+        plain-family: "Noto Sans",
+        brand-family: "Noto Sans",
+        bold-weight: 700,
+        medium-weight: 500,
+        regular-weight: 400,
+      ),
+      density: 0,
+    )
+  );
 }
 
 h1,
@@ -43,4 +45,12 @@ h4,
 h5,
 h6 {
   margin: 0;
+}
+
+.no-subscript {
+  .mat-mdc-form-field-subscript-wrapper {
+    height: 0 !important;
+    min-height: 0 !important;
+    visibility: hidden;
+  }
 }

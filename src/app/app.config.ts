@@ -7,7 +7,6 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { tokenInterceptor } from './core/interceptors/token.interceptor';
 import { provideToastr } from 'ngx-toastr';
-import {CalendarModule, DateAdapter} from "angular-calendar";
 import {adapterFactory} from "angular-calendar/date-adapters/date-fns";
 
 export const appConfig: ApplicationConfig = {
@@ -21,11 +20,11 @@ export const appConfig: ApplicationConfig = {
     }),
     provideAnimationsAsync(),
     provideHttpClient(withInterceptors([tokenInterceptor])),
-    importProvidersFrom(
-      CalendarModule.forRoot({
-        provide: DateAdapter,
-        useFactory: adapterFactory,
-      })
-    )
+    // importProvidersFrom(
+    //   CalendarModule.forRoot({
+    //     provide: DateAdapter,
+    //     useFactory: adapterFactory,
+    //   })
+    // )
   ]
 };
