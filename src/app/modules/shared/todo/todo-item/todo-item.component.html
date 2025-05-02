@@ -1,35 +1,24 @@
-<mat-card appearance="outlined">
+<mat-card class="task-card mat-elevation-z2" appearance="outlined">
   <div class="status-line" [ngClass]="task.status"></div>
-  <!-- <mat-card-header>
-    <mat-card-title-group>
-      <mat-card-title>{{title}}</mat-card-title>
-      <mat-card-subtitle>{{subtitle}}</mat-card-subtitle>
-      <img
-        mat-card-sm-image
-        src={{image}}
-      />
-    </mat-card-title-group>
-  </mat-card-header> -->
-  <mat-card-content style="padding: 0">
-    <div class="flex-row flex-center" style="align-items: center; justify-content: space-evenly;">
-      <div class="flex-column flex-center" style="margin-bottom: 0.25rem">
-        <div class="flex-column">
-          <sub style="font-size: 10px; color: gray">Task</sub>
-          <span>{{ task.title }}</span>
+
+  <mat-card-content>
+    <div class="task-content">
+      <div class="task-info">
+        <div class="task-title">
+          <sub class="task-label">Task</sub>
+          <h3 class="task-name mat-title">{{ task.title }}</h3>
         </div>
-        <div
-          class="flex-row"
-          style="align-items: center; gap: 0.25rem; justify-content: flex-end"
-        >
+        <div class="project-info">
           <img
-            style="height: 16px; width: 16px; border-radius: 15px"
+            class="project-img"
             [src]="getProjectImage(task.projectImage)"
             (error)="onImageError($event)"
-            alt="Team Image"
+            alt="Project Image"
           />
-          <span style="font-size: 12px">{{ task.projectName }}</span>
+          <span class="project-name mat-caption">{{ task.projectName }}</span>
         </div>
       </div>
+
       <app-custom-icon
         [iconName]="'priority_high'"
         [iconColor]="getPriorityColor(task.priority)"

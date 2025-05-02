@@ -269,62 +269,9 @@
         </mat-list>
       </mat-expansion-panel>
     </mat-accordion>
-
-    <!-- <mat-list
-      role="list"
-      style="display: flex; flex-direction: column; gap: 0.5rem; flex: 1"
-    >
-      @for (task of project.userTasks; track task) {
-      <mat-list-item
-        style="border: 1px solid gray; border-radius: 5px; position: relative"
-      >
-        <mat-icon matListItemIcon>task</mat-icon>
-
-        <div matListItemTitle>
-          {{ task.title }}
-        </div>
-        <div matListItemLine>{{ task.description }}</div>
-
-        <button
-          class="empty-btn"
-          style="display: flex; align-items: center; height: 100%"
-          mat-icon-button
-          matListItemMeta
-          [matMenuTriggerFor]="menu"
-        >
-          <app-custom-icon
-            [iconName]="'menu'"
-            [iconColor]="'gray'"
-            [iconSize]="24"
-          ></app-custom-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button
-            mat-menu-item
-            (click)="updateTaskItemStatus(task.id, 'InWork')"
-          >
-            <mat-icon>bolt</mat-icon>
-            <span>Take in work</span>
-          </button>
-          <button
-            mat-menu-item
-            (click)="updateTaskItemStatus(task.id, 'Pending')"
-          >
-            <mat-icon>schedule</mat-icon>
-            <span>Put on hold</span>
-          </button>
-          <button mat-menu-item (click)="updateTaskItemStatus(task.id, 'Done')">
-            <mat-icon>done</mat-icon>
-            <span>Task done</span>
-          </button>
-        </mat-menu>
-        <div class="status-line" [ngClass]="task.status"></div>
-      </mat-list-item>
-      }
-    </mat-list> -->
   </div>
 
-  <div class="flex-column commits-container p-1 gap-1" style="flex: 1">
+  <div class="flex-column commits-container p-1 gap-1">
     <div class="header flex-row">
       <div class="flex-row header-title">
         <div class="flex-column">

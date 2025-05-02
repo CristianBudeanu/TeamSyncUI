@@ -15,6 +15,7 @@ import {
   GithubRepositoryUpdate,
 } from '../../../../core/models/github';
 import { ProjectService } from '../../../../core/services/project.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-project-github-settings',
@@ -34,6 +35,7 @@ import { ProjectService } from '../../../../core/services/project.service';
 export class ProjectGithubSettingsComponent implements OnInit {
   fb = inject(FormBuilder);
   projectService = inject(ProjectService);
+  toastr = inject(ToastrService);
   data = inject(MAT_DIALOG_DATA) as {
     projectId: string;
     githubRepository: GithubRepositoryUpdate;
@@ -75,10 +77,12 @@ export class ProjectGithubSettingsComponent implements OnInit {
       .updateProjectGithubRepository(this.data.projectId, repositoryUpdateDto)
       .subscribe({
         next: (result) => {
-          console.log('GitHub settings updated:', result);
+          // console.log('GitHub settings updated:', result);
+          this.toastr.success('GitHub settings updated successfully!');
         },
         error: (err) => {
-          console.error('Failed to update GitHub settings:', err);
+          // console.error('Failed to update GitHub settings:', err);
+          this.toastr.error(err.error.message || 'Failed to update GitHub settings!');
         },
       });
   }

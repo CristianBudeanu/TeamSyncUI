@@ -47,6 +47,7 @@ export class ProjectHomeTabComponent implements OnChanges, AfterViewInit {
   @ViewChild('chart') chart!: ChartComponent;
   public chartOptions!: Partial<ColumnChartOptions> | any;
   viewReady = false;
+  readyToRenderChart = false;
 
   ngAfterViewInit(): void {
     this.viewReady = true;
@@ -55,26 +56,29 @@ export class ProjectHomeTabComponent implements OnChanges, AfterViewInit {
 
   ngOnChanges(): void {
     if (!this.project) return;
-    
   
-  // Update statistics first
-  const now = new Date();
-  const tasks = this.project.userTasks ?? [];
-
-  const todo = tasks.filter(t => t.status === 'Pending' || t.status === 'InWork').length;
-  const done = tasks.filter(t => t.status === 'Done' || t.status === 'Closed').length;
-  const overdue = tasks.filter(
-    t =>
-      (t.status === 'Pending' || t.status === 'InWork') &&
-      t.endDate &&
-      new Date(t.endDate) < now
-  ).length;
-
-  const commits = this.project.githubRepository?.githubCommits?.length ?? 0;
-  this.statistics = { todo, overdue, done, commits };
-
-  // Try build chart when input is ready
-  this.tryBuildChart();
+    this.readyToRenderChart = false;
+  
+    const now = new Date();
+    const tasks = this.project.userTasks ?? [];
+  
+    const todo = tasks.filter(t => t.status === 'Pending' || t.status === 'InWork').length;
+    const done = tasks.filter(t => t.status === 'Done' || t.status === 'Closed').length;
+    const overdue = tasks.filter(
+      t =>
+        (t.status === 'Pending' || t.status === 'InWork') &&
+        t.endDate &&
+        new Date(t.endDate) < now
+    ).length;
+  
+    const commits = this.project.githubRepository?.githubCommits?.length ?? 0;
+    this.statistics = { todo, overdue, done, commits };
+  
+    // Allow rendering after stats are calculated
+    this.readyToRenderChart = true;
+  
+    // Try build chart when data is ready and DOM is safe
+    this.tryBuildChart();
   }
 
   tryBuildChart(): void {

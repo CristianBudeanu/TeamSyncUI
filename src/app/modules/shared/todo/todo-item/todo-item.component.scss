@@ -1,26 +1,92 @@
+.task-card {
+  position: relative;
+  padding: 0;
+  border-left: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  transition: box-shadow 0.2s ease-in-out;
 
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
 
 .status-line {
   position: absolute;
-  top: 5px;
-  left:0;
-  width: 5px;
-  height: 80%;
-  border-radius: 15px;
+  top: 8px;
+  bottom: 8px;
+  left: 0;
+  width: 6px;
+  border-radius: 6px;
 
   &.Pending {
-    background-color: #fdd835; // yellow
+    background-color: #fdd835;
   }
 
   &.InWork {
-    background-color: #43a047; // green
+    background-color: #43a047;
   }
 
   &.Done {
-    background-color: #fb8c00; // orange
+    background-color: #fb8c00;
   }
 
   &.Closed {
-    background-color: #e53935; // red
+    background-color: #e53935;
   }
+}
+
+.task-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  // padding: 1rem;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.task-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.task-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.task-label {
+  font-size: 0.7rem;
+  color: #757575;
+  margin-bottom: 0.1rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.task-name {
+  margin: 0;
+  font-weight: 500;
+  color: #212121;
+}
+
+.project-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.project-img {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #ccc;
+}
+
+.project-name {
+  font-size: 0.8rem;
+  color: #424242;
 }

@@ -53,7 +53,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.projectService.getProjects().subscribe((projectsResult) => {
       this.projects = projectsResult;
-      console.log(this.projects);
     });
 
     this.username = this.storageService.getUsername() || '';
@@ -63,7 +62,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     if (this.newMessage.trim()) {
       this.chatService.sendMessage(this.newMessage.trim());
       this.newMessage = '';
-      // this.scrollToBottom();
     }
   }
 
@@ -86,26 +84,19 @@ export class ChatComponent implements OnInit, OnDestroy {
   selectProject(project: Project) {
     if (this.selectedProjectId === project.id) return;
 
-    // Stop current connection if exists
     this.chatService.stopChatConnection();
 
     this.selectedProjectName = project.name;
 
-    // Load history and switch project
     this.chatService.loadMessageHistory(project.id).subscribe((messages) => {
       this.chatService.setMessagesForProject(project.id, messages);
 
-      // Create new connection
       this.chatService.createChatConnection(project.id);
-      
 
-      // Update selected project
       this.selectedProjectId = project.id;
 
       this.drawer.close();
     });
-
-    
   }
 
   scrollToBottom(): void {
