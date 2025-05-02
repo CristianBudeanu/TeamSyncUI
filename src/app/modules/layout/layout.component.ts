@@ -17,6 +17,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SidenavBtnsComponent } from './sidenav-btns/sidenav-btns.component';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { LoadingService } from '../../core/services/loading.service';
+import { NotificationService } from '../../core/services/notification.service';
+import { StorageService } from '../../core/services/storage.service';
 
 @Component({
     selector: 'app-layout',
@@ -46,8 +48,13 @@ export class LayoutComponent implements OnInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
   breakpointObserver = inject(BreakpointObserver);
   isLoggedIn$: BehaviorSubject<boolean> = this.authService.isLoggedIn$;
+  private notificationService = inject(NotificationService);
+  private storageService = inject(StorageService);
 
   ngOnInit(): void {
+
+    // this.notificationService.startConnection(this.storageService.getUsername() || '');
+
     const breakpoint$ = this.breakpointObserver
       .observe([Breakpoints.Small, Breakpoints.XSmall])
       .pipe(map((result) => result.matches));

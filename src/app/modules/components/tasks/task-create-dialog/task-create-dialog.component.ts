@@ -81,12 +81,11 @@ export class TaskCreateDialogComponent {
 
     this.taskService.createTaskItem(this.data.id, taskDto).subscribe({
       next: () => {
-        this.toastr.success('Task creat cu succes!', 'Success');
+        this.toastr.success('Task created succesfully!', 'Success');
         this.dialogRef.close();
       },
       error: (err) => {
-        this.toastr.error('Task creat cu insucces!', 'Error');
-        console.error('Failed to create task', err);
+        this.toastr.error('Task creation failed!', 'Error');
       },
     });
   }

@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<!-- <mat-toolbar color="primary">
   @if(isMobile){
   <div class="toolbar-section left">
     <button
@@ -35,6 +35,87 @@
   </div>
 </mat-toolbar>
 <div *ngIf="isLoading$ | async">
-  <!-- <div> -->
+  
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div> -->
+
+
+<mat-toolbar color="primary">
+  @if(isMobile){
+  <div class="toolbar-section left">
+    <button
+      type="button"
+      aria-label="Toggle sidenav"
+      mat-icon-button
+      (click)="toggleSidenav()"
+    >
+      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    </button>
+  </div>
+  }
+
+  <div class="toolbar-section center"></div>
+
+  <div class="toolbar-section right">
+    <!-- ✅ Updated notification button -->
+    <ng-container *ngIf="notifications$ | async as notifications">
+      <button
+        type="button"
+        aria-label="Toggle notifications"
+        mat-icon-button
+        [matBadge]="notifications.length"
+        matBadgeColor="warn"
+        [matMenuTriggerFor]="notificationMenu"
+      >
+        <mat-icon aria-label="Notification icon">notifications</mat-icon>
+      </button>
+
+      <mat-menu #notificationMenu="matMenu">
+        <ng-container *ngIf="notifications.length > 0; else noNotifications">
+          <button mat-menu-item *ngFor="let notification of notifications" (click)="onNotificationClick(notification)">
+            <mat-icon>notification_important</mat-icon>
+            <div class="notification-item">
+              <div class="notification-text">{{ notification.projectName }}</div>
+              <div class="notification-meta">
+                <small>You got a new message in this group!</small>
+              </div>
+            </div>
+          </button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="notificationService.clearNotifications()">
+            <mat-icon>clear_all</mat-icon>
+            <span>Clear All</span>
+          </button>
+        </ng-container>
+
+        <ng-template #noNotifications>
+          <button mat-menu-item disabled>
+            <mat-icon>inbox</mat-icon>
+            <span>No new notifications</span>
+          </button>
+        </ng-template>
+      </mat-menu>
+    </ng-container>
+
+    <!-- 👤 User menu button -->
+    <button type="button" aria-label="Toggle user" mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon aria-label="User icon">person</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu" class="white-container-menu">
+      <button mat-menu-item>
+        <mat-icon>badge</mat-icon>
+        <span>{{this.username}}</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>settings</mat-icon>
+        <span>Settings</span>
+      </button>
+    </mat-menu>
+  </div>
+</mat-toolbar>
+
+<!-- ⏳ Loading bar -->
+<div *ngIf="isLoading$ | async">
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
