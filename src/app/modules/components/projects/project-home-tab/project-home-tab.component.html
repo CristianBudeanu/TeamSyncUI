@@ -35,7 +35,6 @@
     <div class="flex-row" style="flex-wrap: wrap">
       <div style="flex: 1">
         <apx-chart
-          *ngIf="readyToRenderChart && chartOptions"
           #chart
           [series]="chartOptions.series"
           [chart]="chartOptions.chart"

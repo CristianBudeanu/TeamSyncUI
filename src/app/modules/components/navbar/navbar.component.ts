@@ -72,6 +72,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   onNotificationClick(notification : ChatNotification) {
     this.notificationService.deleteViewedNotification(notification);
 
+    
     this.router.navigate(['/project', notification.projectId])
   }
 }

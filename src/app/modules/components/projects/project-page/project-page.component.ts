@@ -32,13 +32,13 @@ import { ProjectSettingsComponent } from '../project-settings/project-settings.c
 import { TaskCreateDialogComponent } from '../../tasks/task-create-dialog/task-create-dialog.component';
 import { ProjectGithubSettingsComponent } from '../project-github-settings/project-github-settings.component';
 import { ProjectHomeTabComponent } from '../project-home-tab/project-home-tab.component';
-import { ProjectTasksTabComponent } from "./project-tasks-tab/project-tasks-tab.component";
+import { ProjectTasksTabComponent } from './project-tasks-tab/project-tasks-tab.component';
 import { TaskItemDto } from '../../../../core/models/task';
-import { ProjectTeamTabComponent } from "./project-team-tab/project-team-tab.component";
+import { ProjectTeamTabComponent } from './project-team-tab/project-team-tab.component';
 
 @Component({
-    selector: 'app-project-page',
-    imports: [
+  selector: 'app-project-page',
+  imports: [
     NgIf,
     CommonModule,
     CustomIconComponent,
@@ -51,10 +51,10 @@ import { ProjectTeamTabComponent } from "./project-team-tab/project-team-tab.com
     MatTabsModule,
     ProjectHomeTabComponent,
     ProjectTasksTabComponent,
-    ProjectTeamTabComponent
-],
-    templateUrl: './project-page.component.html',
-    styleUrl: './project-page.component.scss'
+    ProjectTeamTabComponent,
+  ],
+  templateUrl: './project-page.component.html',
+  styleUrl: './project-page.component.scss',
 })
 export class ProjectPageComponent implements OnInit {
   readonly dialog = inject(MatDialog);
@@ -73,7 +73,6 @@ export class ProjectPageComponent implements OnInit {
   ngOnInit(): void {
     this.loadProject();
   }
-
 
   openDialog(): void {
     this.dialog.open(ProjectSettingsComponent, {
@@ -143,7 +142,7 @@ export class ProjectPageComponent implements OnInit {
   }
 
   getCurrentTask(tasks: TaskItemDto[]): TaskItemDto | null {
-    return tasks?.find(t => t.status === 'InWork') || null;
+    return tasks?.find((t) => t.status === 'InWork') || null;
   }
 
   loadProject(): void {
