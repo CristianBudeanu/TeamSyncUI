@@ -52,9 +52,6 @@ export class LayoutComponent implements OnInit {
   private storageService = inject(StorageService);
 
   ngOnInit(): void {
-
-    // this.notificationService.startConnection(this.storageService.getUsername() || '');
-
     const breakpoint$ = this.breakpointObserver
       .observe([Breakpoints.Small, Breakpoints.XSmall])
       .pipe(map((result) => result.matches));
@@ -74,6 +71,12 @@ export class LayoutComponent implements OnInit {
           this.sidenav.open();
         }
       });
+  }
+
+  toggleSidenav(){
+    if(this.isMobile){
+      this.sidenav.close();
+    }
   }
 
   ngOnDestroy(): void {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { CustomIconComponent } from '../../shared/custom-icon/custom-icon.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -21,6 +21,11 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class SidenavBtnsComponent {
   authService = inject(AuthService);
+  @Output() toggleSidenav = new EventEmitter<boolean>();
+
+  toggleSidenavFunction(){
+    this.toggleSidenav.emit();
+  }
 
   signOut() {
     this.authService.signOut();

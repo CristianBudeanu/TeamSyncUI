@@ -13,7 +13,7 @@
       routerLink="/projects"
       routerLinkActive="active"
     >
-      <div class="option-btn">
+      <div class="option-btn" (click)="toggleSidenavFunction()">
         <app-custom-icon
           [iconName]="'apps'"
           [iconSize]="20"
@@ -23,7 +23,7 @@
       </div>
     </button>
 
-    <button class="empty-btn" routerLink="/todo" routerLinkActive="active">
+    <button class="empty-btn" routerLink="/todo" routerLinkActive="active" (click)="toggleSidenavFunction()">
       <div class="option-btn">
         <app-custom-icon
           [iconName]="'task_alt'"
@@ -35,7 +35,7 @@
     </button>
     <mat-divider class="full-grey-divider"></mat-divider>
 
-    <button class="empty-btn btn-1" routerLink="/analytics" routerLinkActive="active">
+    <button class="empty-btn btn-1" routerLink="/analytics" routerLinkActive="active" (click)="toggleSidenavFunction()">
       <div class="option-btn">
         <app-custom-icon
           [iconName]="'analytics'"
@@ -46,7 +46,7 @@
       </div>
     </button>
 
-    <button class="empty-btn btn-1" routerLink="/chat" routerLinkActive="active">
+    <button class="empty-btn btn-1" routerLink="/chat" routerLinkActive="active" (click)="toggleSidenavFunction()">
       <div class="option-btn">
         <app-custom-icon
           [iconName]="'chat'"

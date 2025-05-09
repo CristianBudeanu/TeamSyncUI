@@ -5,7 +5,7 @@
     class="sidenav square-sidenav-container"
     [opened]="isLoggedIn$ | async"
   >
-    <app-sidenav-btns></app-sidenav-btns>
+    <app-sidenav-btns (toggleSidenav)="toggleSidenav()"></app-sidenav-btns>
   </mat-sidenav>
 
   <mat-sidenav-content>

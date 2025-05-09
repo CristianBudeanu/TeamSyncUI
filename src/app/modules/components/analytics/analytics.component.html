@@ -28,14 +28,18 @@
     <div class="box flex-column gap-1">
       <div class="header">Team</div>
       <div class="content flex-column">
-        @if (projectDetails?.members) { @for (member of projectDetails.members;
+        @if (projectDetails) { @for (member of projectDetails.members;
         track member) {
         <div
           class="flex-row"
-          style="width: 100%; justify-content: space-between; align-items: center;"
+          style="
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+          "
         >
           <span>{{ member.username }}</span>
-          <span style="color: grey; font-size: 12px;">{{member.role}}</span>
+          <span style="color: grey; font-size: 12px">{{ member.role }}</span>
         </div>
         } }
       </div>
