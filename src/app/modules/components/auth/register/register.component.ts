@@ -59,10 +59,14 @@ export class RegisterComponent {
       this.authService.register(this.regModel).subscribe({
         next: result => {
           if (result) {
+            this.toastr.success('User registered successfuly!', 'Success')
             this.registerSuccessEvent.emit();
           }
         },
-        error: () => console.log('error HERE')
+        error: (err) => {
+          const errorMessage = err.error.message || 'Registration failed.';
+          this.toastr.error(errorMessage, 'Error');
+        }
       })
     }
     console.log(this.regModel);

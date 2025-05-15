@@ -31,7 +31,7 @@
     
     <div>
       <ng-container
-      *ngIf="getCurrentTask(project.userTasks) as currentTask; else noTask"
+      *ngIf="getCurrentTask(currentUserTasks) as currentTask; else noTask"
       >
       <sub style="font-size: 9px; color: gray;">Current Task</sub>
         <div

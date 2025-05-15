@@ -1,12 +1,11 @@
 import dayjs from 'dayjs';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import {
   AfterViewInit,
   Component,
+  inject,
   Input,
   OnChanges,
-  OnInit,
-  SimpleChange,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -29,6 +28,8 @@ import {
 } from 'ng-apexcharts';
 import { ColumnChartOptions } from '../../../../core/models/chart/ColumnChartOptions';
 import isoWeek from 'dayjs/plugin/isoWeek';
+import { TaskItemDto } from '../../../../core/models/task';
+import { StorageService } from '../../../../core/services/storage.service';
 dayjs.extend(isoWeek);
 
 export type ChartOptions = {
@@ -51,12 +52,13 @@ export type ChartOptions = {
   styleUrl: './project-home-tab.component.scss',
 })
 export class ProjectHomeTabComponent implements OnChanges, AfterViewInit {
+  viewReady = false;
+  readyToRenderChart = false;
   @Input() project!: Project;
   statistics!: ProjectStatistics;
   @ViewChild('chart') chart!: ChartComponent;
   chartOptions: Partial<ColumnChartOptions> | any = this.getChartConfig();
-  viewReady = false;
-  readyToRenderChart = false;
+  private storageService = inject(StorageService);
 
   ngAfterViewInit(): void {
     this.viewReady = true;
@@ -70,7 +72,10 @@ export class ProjectHomeTabComponent implements OnChanges, AfterViewInit {
     this.readyToRenderChart = false;
 
     const now = new Date();
-    const tasks = this.project.userTasks ?? [];
+    const currentMember = this.project.members.find(
+      (m) => m.username === this.storageService.getUsername()
+    );
+    const tasks: TaskItemDto[] = currentMember?.assignedTasks ?? [];
 
     const todo = tasks.filter(
       (t) => t.status === 'Pending' || t.status === 'InWork'
@@ -88,10 +93,8 @@ export class ProjectHomeTabComponent implements OnChanges, AfterViewInit {
     const commits = this.project.githubRepository?.githubCommits?.length ?? 0;
     this.statistics = { todo, overdue, done, commits };
 
-    // Allow rendering after stats are calculated
     this.readyToRenderChart = true;
 
-    // Try build chart when data is ready and DOM is safe
     this.tryBuildChart();
   }
 
@@ -158,8 +161,8 @@ export class ProjectHomeTabComponent implements OnChanges, AfterViewInit {
       return weekdays.map(() => 0);
     }
 
-    const startOfWeek = dayjs().startOf('isoWeek'); // Monday
-    const endOfWeek = dayjs().endOf('isoWeek'); // Sunday
+    const startOfWeek = dayjs().startOf('isoWeek');
+    const endOfWeek = dayjs().endOf('isoWeek');
 
     const countsByDay: { [key: string]: number } = {
       Mon: 0,

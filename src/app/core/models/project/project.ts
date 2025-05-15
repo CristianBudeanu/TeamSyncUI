@@ -12,7 +12,7 @@ export interface Project{
     members: Member[];
     userRoles: string[];
     githubRepository: GithubRepository
-    userTasks : TaskItemDto[]
+
 };
 
 export interface ProjectCreate{
@@ -26,5 +26,6 @@ export interface Member{
     id: string;
     username: string;
     role: string;
+    assignedTasks : TaskItemDto[]
 }
 

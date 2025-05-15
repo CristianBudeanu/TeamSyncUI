@@ -4,7 +4,7 @@
       <h3>Tasks</h3>
 
       <div class="stats flex-row gap-1">
-        <span>Total Tasks: {{ this.project.userTasks.length }}</span>
+        <span>Total Tasks: {{ this.tasks.length }}</span>
         <div class="vertical-divider"></div>
         <span>Pending: {{ getTaskCountByStatus("Pending") }}</span>
         <div class="vertical-divider"></div>
@@ -48,63 +48,65 @@
         </mat-expansion-panel-header>
 
         <mat-list>
-          @for (task of highPriorityTasks; track task) {
-          <mat-list-item style="border: 1px solid gray; border-radius: 5px">
-            <span matListItemTitle class="task-item-content">
-              {{ task.title }}
-            </span>
-            <span matListItemLine>
-              <div class="date-badge">
-                <app-custom-icon
-                  [iconName]="'calendar_today'"
-                  [iconColor]="'gray'"
-                  [iconSize]="12"
-                ></app-custom-icon>
-                <span class="date-text">{{
-                  task.createdDate | date : "mediumDate"
-                }}</span>
-              </div>
-            </span>
+          <div class="flex-column" style="gap: 0.5rem;">
+            @for (task of highPriorityTasks; track task) {
+            <mat-list-item style="border: 1px solid gray; border-radius: 5px">
+              <span matListItemTitle class="task-item-content">
+                {{ task.title }}
+              </span>
+              <span matListItemLine>
+                <div class="date-badge">
+                  <app-custom-icon
+                    [iconName]="'calendar_today'"
+                    [iconColor]="'gray'"
+                    [iconSize]="12"
+                  ></app-custom-icon>
+                  <span class="date-text">{{
+                    task.createdDate | date : "mediumDate"
+                  }}</span>
+                </div>
+              </span>
 
-            <button
-              class="empty-btn"
-              style="display: flex; align-items: center; height: 100%"
-              mat-icon-button
-              matListItemMeta
-              [matMenuTriggerFor]="menu"
-            >
-              <app-custom-icon
-                [iconName]="'menu'"
-                [iconColor]="'gray'"
-                [iconSize]="24"
-              ></app-custom-icon>
-            </button>
-            <mat-menu #menu="matMenu">
               <button
-                mat-menu-item
-                (click)="updateTaskItemStatus(task.id, 'InWork')"
+                class="empty-btn"
+                style="display: flex; align-items: center; height: 100%"
+                mat-icon-button
+                matListItemMeta
+                [matMenuTriggerFor]="menu"
               >
-                <mat-icon>bolt</mat-icon>
-                <span>Take in work</span>
+                <app-custom-icon
+                  [iconName]="'menu'"
+                  [iconColor]="'gray'"
+                  [iconSize]="24"
+                ></app-custom-icon>
               </button>
-              <button
-                mat-menu-item
-                (click)="updateTaskItemStatus(task.id, 'Pending')"
-              >
-                <mat-icon>schedule</mat-icon>
-                <span>Put on hold</span>
-              </button>
-              <button
-                mat-menu-item
-                (click)="updateTaskItemStatus(task.id, 'Done')"
-              >
-                <mat-icon>done</mat-icon>
-                <span>Task done</span>
-              </button>
-            </mat-menu>
-            <div class="status-line" [ngClass]="task.status"></div>
-          </mat-list-item>
-          }
+              <mat-menu #menu="matMenu">
+                <button
+                  mat-menu-item
+                  (click)="updateTaskItemStatus(task.id, 'InWork')"
+                >
+                  <mat-icon>bolt</mat-icon>
+                  <span>Take in work</span>
+                </button>
+                <button
+                  mat-menu-item
+                  (click)="updateTaskItemStatus(task.id, 'Pending')"
+                >
+                  <mat-icon>schedule</mat-icon>
+                  <span>Put on hold</span>
+                </button>
+                <button
+                  mat-menu-item
+                  (click)="updateTaskItemStatus(task.id, 'Done')"
+                >
+                  <mat-icon>done</mat-icon>
+                  <span>Task done</span>
+                </button>
+              </mat-menu>
+              <div class="status-line" [ngClass]="task.status"></div>
+            </mat-list-item>
+            }
+          </div>
         </mat-list>
       </mat-expansion-panel>
 

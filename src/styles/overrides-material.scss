@@ -36,6 +36,17 @@
   );
 }
 
+.small-table{
+  @include mat.table-overrides((
+    header-headline-size: 12px,
+    row-item-label-text-size: 11px
+  ));
+
+  .mat-mdc-row{
+    height: 32px !important;
+    }
+}
+
 .white-container-menu {
   @include mat.menu-overrides(
     (

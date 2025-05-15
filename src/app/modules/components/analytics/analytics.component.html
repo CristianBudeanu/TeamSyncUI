@@ -1,4 +1,5 @@
 <div class="flex-column container gap-1">
+  <!-- Project dropdown always visible -->
   <div class="flex-row full-width" style="align-items: center">
     <mat-form-field class="no-subscript" appearance="outline">
       <mat-label>Project</mat-label>
@@ -18,45 +19,84 @@
         }
       </mat-select>
     </mat-form-field>
+
     <img
       style="height: 48px; width: 48px"
       src="/assets/pdf-icon.png"
       alt="pdf"
     />
   </div>
-  <div class="flex-row gap-1">
-    <div class="box flex-column gap-1">
-      <div class="header">Team</div>
-      <div class="content flex-column">
-        @if (projectDetails) { @for (member of projectDetails.members;
-        track member) {
-        <div
-          class="flex-row"
-          style="
-            width: 100%;
-            justify-content: space-between;
-            align-items: center;
-          "
-        >
-          <span>{{ member.username }}</span>
-          <span style="color: grey; font-size: 12px">{{ member.role }}</span>
-        </div>
-        } }
+
+  <!-- Conditionally display dashboard or prompt -->
+  @if (projectDetails) {
+  <!-- Your full dashboard layout here -->
+  <div class="flex-row gap-1" style="align-items: center">
+    <!-- Team box -->
+    <!-- <div class="box flex-column gap-1">
+        <div class="header">Team</div>
+        <div class="content flex-column">
+          @for (member of projectDetails.members; track member) {
+          <div
+            class="flex-row"
+            style="width: 100%; justify-content: space-between; align-items: center"
+          >
+            <span>{{ member.username }}</span>
+            <span style="color: grey; font-size: 12px">{{ member.role }}</span>
+          </div>
+          }
+        </div> -->
+
+    <div *ngIf="tasks" class="full-width">
+      <app-tasks-table [tasks]="tasks"></app-tasks-table>
+    </div>
+
+    <!-- Chart box -->
+    <div id="tasks-chart">
+      <apx-chart
+        [series]="chartOptions.series"
+        [chart]="chartOptions.chart"
+        [plotOptions]="chartOptions.plotOptions"
+        [labels]="chartOptions.labels"
+      ></apx-chart>
+    </div>
+  </div>
+
+  <div class="flex-row gap-1" >
+    <div class="box" style="flex: 0.75;">
+      <div class="header">Contribution</div>
+      <div class="content" *ngIf="projectDetails">
+        <app-user-contribution-chart [project]="projectDetails"></app-user-contribution-chart>
       </div>
     </div>
-    <div class="box">
-      <div class="header">Tasks</div>
-      <div class="content"></div>
+    <div class="flex-column box gap-1" style="flex: 0.25;">
+      <div class="header">Team</div>
+      <div class="content">
+        <div class="content flex-column">
+          @for (member of projectDetails.members; track member) {
+          <div
+            class="flex-row"
+            style="
+              width: 100%;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
+            <span>{{ member.username }}</span>
+            <span style="color: grey; font-size: 12px">{{ member.role }}</span>
+          </div>
+          }
+        </div>
+      </div>
     </div>
   </div>
-  <div class="flex-row gap-1">
-    <div class="box">
-      <div class="header">Github</div>
-      <div class="content"></div>
-    </div>
-    <div class="box">
-      <div class="header">Teams</div>
-      <div class="content"></div>
-    </div>
+
+  } @else {
+  <!-- Show prompt when no project is selected -->
+  <div
+    class="flex-column"
+    style="justify-content: center; align-items: center; padding: 4rem"
+  >
+    <h2 style="color: #999">Select a project</h2>
   </div>
+  }
 </div>

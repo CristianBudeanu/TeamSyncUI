@@ -35,6 +35,7 @@ import { ProjectHomeTabComponent } from '../project-home-tab/project-home-tab.co
 import { ProjectTasksTabComponent } from './project-tasks-tab/project-tasks-tab.component';
 import { TaskItemDto } from '../../../../core/models/task';
 import { ProjectTeamTabComponent } from './project-team-tab/project-team-tab.component';
+import { StorageService } from '../../../../core/services/storage.service';
 
 @Component({
   selector: 'app-project-page',
@@ -66,9 +67,18 @@ export class ProjectPageComponent implements OnInit {
   private _snackBar = inject(MatSnackBar);
   private readonly loadingService = inject(LoadingService);
   private readonly refreshTrigger$ = new BehaviorSubject<void>(undefined);
+  private storageService = inject(StorageService);
 
   isLoggedIn = false;
   project$: Observable<Project> = EMPTY;
+
+  // currentMember = this.project.members.find(
+  //   (m) => m.username === this.storageService.getUsername()
+  // );
+
+  currentUserTasks: TaskItemDto[] = [];
+
+  // tasks: TaskItemDto[] = this.currentMember?.assignedTasks ?? [];
 
   ngOnInit(): void {
     this.loadProject();
@@ -156,6 +166,11 @@ export class ProjectPageComponent implements OnInit {
             this.projectService.getProjectDetails(id).pipe(
               tap((details) => console.log(details)),
               delay(1000),
+              map((details) => {
+                const currentMember = details.members.find(m => m.id === this.storageService.getUsername());
+                this.currentUserTasks = currentMember?.assignedTasks ?? [];
+                return details;
+              }),
               finalize(() => this.loadingService.hide())
             )
           )

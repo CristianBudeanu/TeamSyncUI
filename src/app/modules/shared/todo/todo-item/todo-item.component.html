@@ -19,11 +19,14 @@
         </div>
       </div>
 
-      <app-custom-icon
+      <!-- <app-custom-icon
         [iconName]="'priority_high'"
         [iconColor]="getPriorityColor(task.priority)"
         [iconSize]="32"
-      ></app-custom-icon>
+      ></app-custom-icon> -->
+      <div [ngStyle]="{ color: getPriorityColor(task.priority) }">
+        {{ task.priority }}
+      </div>
     </div>
   </mat-card-content>
 </mat-card>

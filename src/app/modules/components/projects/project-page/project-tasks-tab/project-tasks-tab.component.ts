@@ -3,8 +3,10 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { Project } from '../../../../../core/models/project/project';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,6 +27,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltip } from '@angular/material/tooltip';
 import { ProjectGithubSettingsComponent } from '../../project-github-settings/project-github-settings.component';
 import { ToastrService } from 'ngx-toastr';
+import { StorageService } from '../../../../../core/services/storage.service';
 
 @Component({
   selector: 'app-project-tasks-tab',
@@ -46,30 +49,41 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './project-tasks-tab.component.html',
   styleUrl: './project-tasks-tab.component.scss',
 })
-export class ProjectTasksTabComponent implements OnInit {
+export class ProjectTasksTabComponent implements OnInit, OnChanges {
+  @Input() project!: Project;
+
   readonly dialog = inject(MatDialog);
   private readonly taskService = inject(TaskService);
+  private toastr = inject(ToastrService);
+  private storageService = inject(StorageService);
+
+  @Output() refreshProject = new EventEmitter<void>();
+
   highPriorityTasks: TaskItemDto[] = [];
   mediumPriorityTasks: TaskItemDto[] = [];
   lowPriorityTasks: TaskItemDto[] = [];
-  private toastr = inject(ToastrService);
-  @Output() refreshProject = new EventEmitter<void>();
+  tasks: TaskItemDto[] = [];
 
-  ngOnChanges(): void {
-    if (this.project?.userTasks?.length) {
-      this.highPriorityTasks = this.project.userTasks.filter(
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['project'] && this.project?.members) {
+      const currentMember = this.project.members.find(
+        (m) => m.username === this.storageService.getUsername()
+      );
+
+      this.tasks = currentMember?.assignedTasks ?? [];
+
+      this.highPriorityTasks = this.tasks.filter(
         (t) => t.priority === TaskPriority.High
       );
-      this.mediumPriorityTasks = this.project.userTasks.filter(
+      console.log(this.highPriorityTasks);
+      this.mediumPriorityTasks = this.tasks.filter(
         (t) => t.priority === TaskPriority.Medium
       );
-      this.lowPriorityTasks = this.project.userTasks.filter(
+      this.lowPriorityTasks = this.tasks.filter(
         (t) => t.priority === TaskPriority.Low
       );
     }
   }
-
-  @Input() project!: Project;
 
   ngOnInit(): void {
     console.log(this.project);
@@ -93,15 +107,18 @@ export class ProjectTasksTabComponent implements OnInit {
         this.refreshProject.emit();
       },
       error: (err) => {
-        console.error('Error updating task status:', err);
-      },
+        console.log(err.error);
+        const errorMessage = err.error?.message || 'Registration failed.';
+
+        
+        this.toastr.error(errorMessage, 'Error');
+      }
     });
   }
 
   getTaskCountByStatus(status: string): number {
-    if (!this.project?.userTasks) return 0;
-    return this.project.userTasks.filter((task) => task.status === status)
-      .length;
+    if (!this.tasks) return 0;
+    return this.tasks.filter((task) => task.status === status).length;
   }
   checkRole(project: Project, role: string): boolean {
     return project.userRoles.includes(role);
