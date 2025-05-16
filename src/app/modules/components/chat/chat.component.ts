@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewChecked,
   Component,
   ElementRef,
   inject,
@@ -10,7 +11,10 @@ import {
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
+import {
+  MAT_FORM_FIELD_DEFAULT_OPTIONS,
+  MatFormFieldModule,
+} from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
@@ -38,14 +42,14 @@ import { Project } from '../../../core/models/project/project';
   ],
   providers: [
     {
-      provide:MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: {appearance: 'fill'}
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'fill' },
     },
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   chatService = inject(ChatService);
   isUserListOpen = true;
   username = '';
@@ -98,6 +102,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.chatService.setMessagesForProject(project.id, messages);
 
       this.chatService.createChatConnection(project.id);
+      this.scrollToBottom();
 
       this.selectedProjectId = project.id;
 
@@ -112,6 +117,10 @@ export class ChatComponent implements OnInit, OnDestroy {
     } catch (err) {
       console.error('Scroll error:', err);
     }
+  }
+
+  ngAfterViewChecked(): void {
+    this.scrollToBottom();
   }
 
   ngOnDestroy(): void {

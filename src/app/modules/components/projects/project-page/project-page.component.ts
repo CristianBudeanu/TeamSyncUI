@@ -72,13 +72,7 @@ export class ProjectPageComponent implements OnInit {
   isLoggedIn = false;
   project$: Observable<Project> = EMPTY;
 
-  // currentMember = this.project.members.find(
-  //   (m) => m.username === this.storageService.getUsername()
-  // );
-
   currentUserTasks: TaskItemDto[] = [];
-
-  // tasks: TaskItemDto[] = this.currentMember?.assignedTasks ?? [];
 
   ngOnInit(): void {
     this.loadProject();
