@@ -57,7 +57,7 @@ export class ProjectsComponent implements OnInit {
       return 'assets/noImage.jpg';
     }
 
-    return 'https://localhost:7263/Projects/' + imagePath;
+    return 'https://localhost:7263/projects/' + imagePath;
   }
 
   onImageError(event: Event): void {
